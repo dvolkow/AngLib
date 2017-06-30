@@ -95,6 +95,24 @@ namespace anglib
 			this->deg_ = this->deg_ % Const::DEG_IN_2PI;
 		}
 
+		//---NONCONST!-----
+		//--Reduce angle to value between 0 deg and 360 deg:
+		void normalize() noexcept
+		{
+			mod_2pi();
+			Deg tmp;
+
+			if ((Deg(deg_, min_, sec_) > Deg(0) || 
+						Deg(deg_, min_, sec_) == Deg(0)))
+				return;
+			else 
+				tmp = Deg(deg_, min_, sec_) + Deg(360, 0, 0);
+
+			deg_ = tmp.deg();
+			min_ = tmp.min();
+			sec_ = tmp.sec();
+		}
+
 		friend std::ostream & operator<<(std::ostream & s, const Deg & dg) 
 		{
 			s << dg.deg_ << " deg " << dg.min_ << " min " << dg.sec_ << " sec";
@@ -180,6 +198,24 @@ namespace anglib
 		void mod_2pi() noexcept
 		{
 			this->hour_ = this->hour_ % Const::HOUR_IN_2PI;
+		}
+		
+		//---NONCONST!-----
+		//--Reduce angle to value between 0 hour and 24 hour:
+		void normalize() noexcept
+		{
+			mod_2pi();
+			Hour tmp;
+
+			if ((Hour(hour_, min_, sec_) > Hour(0) || 
+						Hour(hour_, min_, sec_) == Hour(0)))
+				return;
+			else 
+				tmp = Hour(hour_, min_, sec_) + Hour(24, 0, 0);
+
+			hour_ = tmp.hour();
+			min_ = tmp.min();
+			sec_ = tmp.sec();
 		}
 
 		friend std::ostream & operator<<(std::ostream &s, const Hour &hr)

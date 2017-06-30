@@ -32,8 +32,6 @@ int main()
 
 	std::cout << "g.mod_2pi = " << g.mod_2pi<int>() << "\n";
 	std::cout << "g.mod_2pi const = " << g << "\n";
-	g.mod_2pi(); 
-	std::cout << "g after nonconst = " << g << "\n";
 
 	std::cout << "left and right ops test\n";
 	std::cout << ((5 - f) == (f - 5)) << "\n";
@@ -64,8 +62,6 @@ int main()
 
 	std::cout << "r.mod_2pi = " << r.mod_2pi<int>() << "\n";
 	std::cout << "r.mod_2pi const = " << r << "\n";
-	r.mod_2pi(); 
-	std::cout << "r after nonconst = " << r << "\n";
 
 	std::cout << "left and right ops test\n";
 	std::cout << ((5 - p) == (p - 5)) << "\n";
@@ -104,4 +100,19 @@ int main()
 
 	std::cout << "\nAnother expressions:\n";
 	std::cout << (a + 2 - 4 * o - (d * 4 - 2 / (o - b * 8)).toRad() + 0.2 * g - f * 0.45 - 1) << "\n";
+
+	std::cout << "\nNormalize:\n";
+	dint tst_normalize(-1005);
+	std::cout << tst_normalize << "\n";
+	tst_normalize.mod_2pi();
+	std::cout << tst_normalize << "\n";
+	tst_normalize.normalize();
+	std::cout << tst_normalize << "\n";
+	hint tst_normalize2(-105, 0, 25);
+	std::cout << tst_normalize2 << "\n";
+	tst_normalize2.mod_2pi();
+	std::cout << tst_normalize2 << "\n";
+	tst_normalize2.normalize();
+	std::cout << tst_normalize2 << "\n";
+
 }
