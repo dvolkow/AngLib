@@ -123,4 +123,8 @@ int main()
 	Hour<short> hour_of_deg(long_of_hour);
 	std::cout << long_of_hour << "\n" << o << "\n" << hour_of_deg << "\n";
 	std::cout << "Second test passed.\n\n";
+
+	std::cout << "Rumb = " << anglib::Const::rumb << "\n";
+	std::cout << "Grad = " << anglib::Const::grad << "\n";
+	std::cout << "Thousd(USSR) = " << anglib::Const::thousandy << "\n";
 }

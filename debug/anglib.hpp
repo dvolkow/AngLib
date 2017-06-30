@@ -165,7 +165,7 @@ namespace anglib
 
 		Hour(double rad) noexcept
 		{
-    		sec_ = Const::SEC_IN_RAD * rad / 15;
+			sec_ = Const::SEC_IN_RAD * rad / 15;
 			hour_ = sec_ / Const::SEC_IN_DEG;
 			sec_ -= Const::SEC_IN_DEG * hour_;
 			min_ = sec_ / Const::MIN_IN_DEG;
@@ -247,7 +247,7 @@ namespace anglib
 			return s;
 		}
 
-		bool operator==(const Hour & a)
+		bool operator==(const Hour & a) const
 		{
 			return a.hour() == this->hour_ && this->min_ == a.min() && fabs(a.sec() - this->sec_) < Const::PRECISION_COMPARE;
 		}
@@ -259,6 +259,7 @@ namespace anglib
 		const Deg<short> pi = Deg<short>(180, 0, 0);
 		const Deg<short> rumb(11, 15, 0);
 		const Deg<short> grad(M_PI / 200);
+		const Deg<short> thousandy(M_PI / 3000);
 	}
 
 	//--------------implementations another ops-----------------
@@ -321,13 +322,13 @@ namespace anglib
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	inline bool operator==(AriphmeticType & b, const Hour<IntType> & a) noexcept
+	inline bool operator==(const AriphmeticType & b, const Hour<IntType> & a) noexcept
 	{
 		return fabs(a.toRad() - b) < Const::PRECISION_COMPARE;
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	inline bool operator!=(AriphmeticType & b, const Hour<IntType> & a) noexcept
+	inline bool operator!=(const AriphmeticType & b, const Hour<IntType> & a) noexcept
 	{
 		return !(a == b);
 	}
@@ -576,7 +577,6 @@ namespace anglib
 	{
 		return b > a;
 	}
-
 }
 
 #endif
