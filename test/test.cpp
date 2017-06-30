@@ -86,4 +86,11 @@ int main()
 	std::cout << "Radian = " << hint(1).toHour() << " hours\n";
 	std::cout << "Radian = " << hint(1).toRad() << " rad\n";
 	std::cout << "Radian = " << hint(1).toDeg() << " deg\n";
+
+	std::cout << "\nTest ops between different types:\n";
+	std::cout << (c + p) << "\n" << (p + c) << "\n"; 
+	std::cout << (c - p) << "\n" << (p - c) << "\n";
+
+	std::cout << "\nAnother expressions:\n";
+	std::cout << (a + 2 - 4 * o - (d * 4 - 2 / (o - b * 8)).toRad() + 0.2 * g - f * 0.45 - 1) << "\n";
 }

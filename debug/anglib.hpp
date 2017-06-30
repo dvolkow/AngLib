@@ -341,6 +341,19 @@ namespace anglib
 		return Hour<IntType>(adds + dl.toRad());
 	}
 
+	//Deg + Hour cases
+	template <typename IntType>
+	inline const Hour<IntType> operator+(const Hour<IntType> & dl, const Deg<IntType> & dr) noexcept
+	{
+		return Hour<IntType>(dl.toRad() + dr.toRad());
+	}
+
+	template <typename IntType>
+	inline const Deg<IntType> operator+(const Deg<IntType> & dl, const Hour<IntType> & dr) noexcept
+	{
+		return Deg<IntType>(dl.toRad() + dr.toRad());
+	}
+
 	//---------------------SUB----------
 	//---Deg
 	template <typename IntType>
@@ -378,6 +391,19 @@ namespace anglib
 	inline const Hour<IntType> operator-(const AriphmeticType & subd, const Hour<IntType> & dl) noexcept
 	{
 		return Hour<IntType>(subd - dl.toRad());
+	}
+
+	//Deg - Hour cases
+	template <typename IntType>
+	inline const Hour<IntType> operator-(const Hour<IntType> & dl, const Deg<IntType> & dr) noexcept
+	{
+		return Hour<IntType>(dl.toRad() - dr.toRad());
+	}
+
+	template <typename IntType>
+	inline const Deg<IntType> operator-(const Deg<IntType> & dl, const Hour<IntType> & dr) noexcept
+	{
+		return Deg<IntType>(dl.toRad() - dr.toRad());
 	}
 
 	//---------------------DIV----------
