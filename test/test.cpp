@@ -71,6 +71,17 @@ int main()
 	std::cout << ((5 - p) == (p - 5)) << "\n";
 	std::cout << "==: " << (pi == Deg<short>(l.toRad())) << "\n";
 
+	std::cout << "\nCompare ops:\n";
+	std::cout << "a > b ? " << (a > b) << "\n";
+	std::cout << "a < b ? " << (a < b) << "\n";
+	std::cout << "a > p ? " << (a > p) << "\n";
+	std::cout << "a < p ? " << (a < p) << "\n";
+	std::cout << "o < p ? " << (o < p) << "\n";
+	std::cout << "o > p ? " << (o > p) << "\n";
+	std::cout << "o < a ? " << (o < a) << "\n";
+	std::cout << "o > a ? " << (o > a) << "\n";
+
+
 	std::cout << "Basic test pass.\n\n";
 
 	std::cout << "Test correct convert & construct: Deg\n";

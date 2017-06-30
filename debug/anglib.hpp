@@ -460,5 +460,62 @@ namespace anglib
 		return Hour<IntType>(dl.toRad() * mult);
 	}
 
+	//---------------------GREAT_OF----------
+	//---Deg
+	template <typename IntType>
+	inline bool operator>(const Deg<IntType> & a, const Deg<IntType> & b)
+	{
+		return (b - a).toRad() < 0;
+	}
+	
+	//---Hour
+	template <typename IntType>
+	inline bool operator>(const Hour<IntType> & a, const Hour<IntType> & b)
+	{
+		return (b - a).toRad() < 0;
+	}
+	
+	//---Hour & Deg
+	template <typename IntType>
+	inline bool operator>(const Deg<IntType> & a, const Hour<IntType> & b)
+	{
+		return (b - a).toRad() < 0;
+	}
+
+	template <typename IntType>
+	inline bool operator>(const Hour<IntType> & a, const Deg<IntType> & b)
+	{
+		return (b - a).toRad() < 0;
+	}
+
+	//---------------------LESS_THAN----------
+	//---Deg
+	template <typename IntType>
+	inline bool operator<(const Deg<IntType> & a, const Deg<IntType> & b)
+	{
+		return b > a;
+	}
+	
+	//---Hour
+	template <typename IntType>
+	inline bool operator<(const Hour<IntType> & a, const Hour<IntType> & b)
+	{
+		return b > a;
+	}
+	
+	//---Hour & Deg
+	template <typename IntType>
+	inline bool operator<(const Deg<IntType> & a, const Hour<IntType> & b)
+	{
+		return b > a;
+	}
+
+	template <typename IntType>
+	inline bool operator<(const Hour<IntType> & a, const Deg<IntType> & b)
+	{
+		return b > a;
+	}
+
 }
+
 #endif
