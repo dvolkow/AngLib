@@ -22,6 +22,9 @@ namespace anglib
 	}
 
 	template <typename IntType>
+	class Hour;
+
+	template <typename IntType>
 	class Deg
 	{
 		double sec_;
@@ -31,8 +34,18 @@ namespace anglib
 
 		Deg() noexcept : sec_(0), min_(0), deg_(0) {}
 
-		Deg(const Deg & d) noexcept : sec_(d.sec_), min_(d.min_), deg_(d.deg_) {}
+		Deg(const Deg & d) noexcept : sec_(d.sec()), min_(d.min()), deg_(d.deg()) {}
 
+		template <typename AIntType>
+		Deg(const Deg<AIntType> & d) noexcept : sec_(d.sec()), min_(d.min()), deg_(d.deg()) {}
+
+		template <typename AIntType>
+		Deg(const Hour<AIntType> & d) noexcept 
+		{
+			Deg tmp(d.toRad());
+			deg_ = tmp.deg(), min_ = tmp.min(), sec_ = tmp.sec();
+		}
+			
 		Deg(const IntType deg__, const IntType min__, const double sec__) noexcept : sec_(sec__), min_(min__), deg_(deg__)
 		{}
 
@@ -115,7 +128,7 @@ namespace anglib
 
 		friend std::ostream & operator<<(std::ostream & s, const Deg & dg) 
 		{
-			s << dg.deg_ << " deg " << dg.min_ << " min " << dg.sec_ << " sec";
+			s << dg.deg() << " deg " << dg.min() << " min " << dg.sec() << " sec";
 			return s;
 		}
 
@@ -123,7 +136,7 @@ namespace anglib
 		{
 			return a.deg() == this->deg_ && this->min_ == a.min() && fabs(a.sec() - this->sec_) < Const::PRECISION_COMPARE;
 		}
-	};
+	}; // end Deg
 
 	template <typename IntType>
 	class Hour
@@ -135,7 +148,17 @@ namespace anglib
 
 		Hour() noexcept : sec_(0), min_(0), hour_(0) {}
 
-		Hour(const Hour & h) noexcept : sec_(h.sec_), min_(h.min_), hour_(h.hour_) {}
+		Hour(const Hour & h) noexcept : sec_(h.sec()), min_(h.min()), hour_(h.hour()) {}
+
+		template <typename AIntType>
+		Hour(const Hour<AIntType> & d) noexcept : sec_(d.sec()), min_(d.min()), hour_(d.hour()) {}
+
+		template <typename AIntType>
+		Hour(const Deg<AIntType> & d) noexcept 
+		{
+			Hour tmp(d.toRad());
+			hour_ = tmp.hour(), min_ = tmp.min(), sec_ = tmp.sec();
+		}
 
 		Hour(short hour__, short min__, double sec__) noexcept : sec_(sec__), min_(min__), hour_(hour__)
 		{}
@@ -228,13 +251,15 @@ namespace anglib
 		{
 			return a.hour() == this->hour_ && this->min_ == a.min() && fabs(a.sec() - this->sec_) < Const::PRECISION_COMPARE;
 		}
-	};
+	}; // end Hour
+
 
 	namespace Const
 	{
-		Deg<short> pi = Deg<short>(180, 0, 0);
+		const Deg<short> pi = Deg<short>(180, 0, 0);
+		const Deg<short> rumb(11, 15, 0);
+		const Deg<short> grad(M_PI / 200);
 	}
-
 
 	//--------------implementations another ops-----------------
 	//
@@ -253,25 +278,25 @@ namespace anglib
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	inline bool operator==(const Deg<IntType> & a, AriphmeticType & b) noexcept
+	inline bool operator==(const Deg<IntType> & a, const AriphmeticType & b) noexcept
 	{
 		return fabs(a.toRad() - b) < Const::PRECISION_COMPARE;
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	inline bool operator==(AriphmeticType & b, const Deg<IntType> & a) noexcept
+	inline bool operator==(const AriphmeticType & b, const Deg<IntType> & a) noexcept
 	{
 		return fabs(a.toRad() - b) < Const::PRECISION_COMPARE;
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	inline bool operator!=(AriphmeticType & b, const Deg<IntType> & a) noexcept
+	inline bool operator!=(const AriphmeticType & b, const Deg<IntType> & a) noexcept
 	{
 		return !(a == b);
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	inline bool operator!=(const Deg<IntType> & a, AriphmeticType & b) noexcept
+	inline bool operator!=(const Deg<IntType> & a, const AriphmeticType & b) noexcept
 	{
 		return !(a == b);
 	}
@@ -290,7 +315,7 @@ namespace anglib
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	inline bool operator==(const Hour<IntType> & a, AriphmeticType & b) noexcept
+	inline bool operator==(const Hour<IntType> & a, const AriphmeticType & b) noexcept
 	{
 		return fabs(a.toRad() - b) < Const::PRECISION_COMPARE;
 	}
@@ -308,7 +333,7 @@ namespace anglib
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	inline bool operator!=(const Hour<IntType> & a, AriphmeticType & b) noexcept
+	inline bool operator!=(const Hour<IntType> & a, const AriphmeticType & b) noexcept
 	{
 		return !(a == b);
 	}

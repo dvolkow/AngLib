@@ -78,7 +78,7 @@ int main()
 	std::cout << "o > a ? " << (o > a) << "\n";
 
 
-	std::cout << "Basic test pass.\n\n";
+	std::cout << "Basic test passed.\n\n";
 
 	std::cout << "Test correct convert & construct: Deg\n";
 	std::cout << "Radian = " << dint(1) << "\n";
@@ -115,4 +115,12 @@ int main()
 	tst_normalize2.normalize();
 	std::cout << tst_normalize2 << "\n";
 
+	std::cout << "\nConstructors:\n";
+	Deg<short> tmp(b);
+	Deg<long long> ltmp(tmp);
+	std::cout << tmp << "\n" << b << "\n" << ltmp << "\n";
+	Deg<long> long_of_hour(o);
+	Hour<short> hour_of_deg(long_of_hour);
+	std::cout << long_of_hour << "\n" << o << "\n" << hour_of_deg << "\n";
+	std::cout << "Second test passed.\n\n";
 }
