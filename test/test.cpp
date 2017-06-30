@@ -21,7 +21,9 @@ int main()
 	std::cout << "d = " << d << "\n";
 
 	dint e = b / 3;
+	e = 3 / b;
 	dint f = e * 3;
+	f = 3 * e;
 	dint g = a + (2 - b - c * 2 + d / 3) * 5;
 
 	std::cout << "e = " << e << "\n";
@@ -36,5 +38,52 @@ int main()
 	std::cout << "left and right ops test\n";
 	std::cout << ((5 - f) == (f - 5)) << "\n";
 	std::cout << "==: " << (pi == Deg<short>(b.toRad())) << "\n";
+	std::cout << "==: " << (pi == Deg<short>(0)) << "\n";
+	std::cout << "==: " << (pi == M_PI) << "\n";
 
+	//Test Hour class
+	hint k; // -- define
+	hint l = hint(pi.toRad()); 
+	hint m = k + l; 
+	hint n = k - l;
+	
+	std::cout << "k = " << k << "\n";
+	std::cout << "l = " << l << "\n";
+	std::cout << "m = " << m << "\n";
+	std::cout << "n = " << n << "\n";
+
+	hint o = l / 3;
+	o = 3 / l;
+	hint p = o * 3;
+	p = 3 * o;
+	hint r = k + (2 - l - m * 2 + n / 3) * 5;
+
+	std::cout << "o = " << o << "\n";
+	std::cout << "p = " << p << "\n";
+	std::cout << "r = " << r << "\n";
+
+	std::cout << "r.mod_2pi = " << r.mod_2pi<int>() << "\n";
+	std::cout << "r.mod_2pi const = " << r << "\n";
+	r.mod_2pi(); 
+	std::cout << "r after nonconst = " << r << "\n";
+
+	std::cout << "left and right ops test\n";
+	std::cout << ((5 - p) == (p - 5)) << "\n";
+	std::cout << "==: " << (pi == Deg<short>(l.toRad())) << "\n";
+
+	std::cout << "Basic test pass.\n\n";
+
+	std::cout << "Test correct convert & construct: Deg\n";
+	std::cout << "Radian = " << dint(1) << "\n";
+	std::cout << "Radian = " << dint(1).toSec() << " sec\n";
+	std::cout << "Radian = " << dint(1).toHour() << " hours\n";
+	std::cout << "Radian = " << dint(1).toRad() << " rad\n";
+	std::cout << "Radian = " << dint(1).toDeg() << " deg\n\n";
+
+	std::cout << "Test correct convert & construct: Hour\n";
+	std::cout << "Radian = " << hint(1) << "\n";
+	std::cout << "Radian = " << hint(1).toSec() << " sec\n";
+	std::cout << "Radian = " << hint(1).toHour() << " hours\n";
+	std::cout << "Radian = " << hint(1).toRad() << " rad\n";
+	std::cout << "Radian = " << hint(1).toDeg() << " deg\n";
 }
