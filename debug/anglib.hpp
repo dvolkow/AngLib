@@ -205,99 +205,99 @@ namespace anglib
 	//---------------------EQUALS and NOTEQUALS----------
 	//---Deg
 	template <typename IntType>
-	inline bool operator==(const Deg<IntType> & a, const Deg<IntType> & b)
+	inline bool operator==(const Deg<IntType> & a, const Deg<IntType> & b) noexcept
 	{
 		return a.deg() == b.deg() && b.min() == a.min() && fabs(a.sec() - b.sec()) < Const::PRECISION_COMPARE;
 	}
 
 	template <typename IntType>
-	inline bool operator!=(const Deg<IntType> & a, const Deg<IntType> & b)
+	inline bool operator!=(const Deg<IntType> & a, const Deg<IntType> & b) noexcept
 	{
 		return !(a == b);
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	inline bool operator==(const Deg<IntType> & a, AriphmeticType & b)
+	inline bool operator==(const Deg<IntType> & a, AriphmeticType & b) noexcept
 	{
 		return fabs(a.toRad() - b) < Const::PRECISION_COMPARE;
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	inline bool operator==(AriphmeticType & b, const Deg<IntType> & a)
+	inline bool operator==(AriphmeticType & b, const Deg<IntType> & a) noexcept
 	{
 		return fabs(a.toRad() - b) < Const::PRECISION_COMPARE;
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	inline bool operator!=(AriphmeticType & b, const Deg<IntType> & a)
+	inline bool operator!=(AriphmeticType & b, const Deg<IntType> & a) noexcept
 	{
 		return !(a == b);
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	inline bool operator!=(const Deg<IntType> & a, AriphmeticType & b)
+	inline bool operator!=(const Deg<IntType> & a, AriphmeticType & b) noexcept
 	{
 		return !(a == b);
 	}
 	
 	//---Hour
 	template <typename IntType>
-	inline bool operator==(const Hour<IntType> & a, const Hour<IntType> & b)
+	inline bool operator==(const Hour<IntType> & a, const Hour<IntType> & b) noexcept
 	{
 		return a.hour() == b.hour() && b.min() == a.min() && fabs(a.sec() - b.sec()) < Const::PRECISION_COMPARE;
 	}
 
 	template <typename IntType>
-	inline bool operator!=(const Hour<IntType> & a, const Hour<IntType> & b)
+	inline bool operator!=(const Hour<IntType> & a, const Hour<IntType> & b) noexcept
 	{
 		return !(a == b);
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	inline bool operator==(const Hour<IntType> & a, AriphmeticType & b)
+	inline bool operator==(const Hour<IntType> & a, AriphmeticType & b) noexcept
 	{
 		return fabs(a.toRad() - b) < Const::PRECISION_COMPARE;
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	inline bool operator==(AriphmeticType & b, const Hour<IntType> & a)
+	inline bool operator==(AriphmeticType & b, const Hour<IntType> & a) noexcept
 	{
 		return fabs(a.toRad() - b) < Const::PRECISION_COMPARE;
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	inline bool operator!=(AriphmeticType & b, const Hour<IntType> & a)
+	inline bool operator!=(AriphmeticType & b, const Hour<IntType> & a) noexcept
 	{
 		return !(a == b);
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	inline bool operator!=(const Hour<IntType> & a, AriphmeticType & b)
+	inline bool operator!=(const Hour<IntType> & a, AriphmeticType & b) noexcept
 	{
 		return !(a == b);
 	}
 
 	//Deg == Hour cases
 	template <typename IntType>
-	inline bool operator==(const Hour<IntType> & a, const Deg<IntType> & b)
+	inline bool operator==(const Hour<IntType> & a, const Deg<IntType> & b) noexcept
 	{
 		return fabs(a.toRad() - b.toRad()) < Const::PRECISION_COMPARE;
 	}
 
 	template <typename IntType>
-	inline bool operator==(const Deg<IntType> & b, const Hour<IntType> & a)
+	inline bool operator==(const Deg<IntType> & b, const Hour<IntType> & a) noexcept
 	{
 		return fabs(a.toRad() - b.toRad()) < Const::PRECISION_COMPARE;
 	}
 
 	template <typename IntType>
-	inline bool operator!=(const Hour<IntType> & a, const Deg<IntType> & b)
+	inline bool operator!=(const Hour<IntType> & a, const Deg<IntType> & b) noexcept
 	{
 		return !(a == b);
 	}
 
 	template <typename IntType>
-	inline bool operator!=(const Deg<IntType> & b, const Hour<IntType> & a)
+	inline bool operator!=(const Deg<IntType> & b, const Hour<IntType> & a) noexcept
 	{
 		return !(a == b);
 	}
@@ -463,27 +463,27 @@ namespace anglib
 	//---------------------GREAT_OF----------
 	//---Deg
 	template <typename IntType>
-	inline bool operator>(const Deg<IntType> & a, const Deg<IntType> & b)
+	inline bool operator>(const Deg<IntType> & a, const Deg<IntType> & b) noexcept
 	{
 		return (b - a).toRad() < 0;
 	}
 	
 	//---Hour
 	template <typename IntType>
-	inline bool operator>(const Hour<IntType> & a, const Hour<IntType> & b)
+	inline bool operator>(const Hour<IntType> & a, const Hour<IntType> & b) noexcept
 	{
 		return (b - a).toRad() < 0;
 	}
 	
 	//---Hour & Deg
 	template <typename IntType>
-	inline bool operator>(const Deg<IntType> & a, const Hour<IntType> & b)
+	inline bool operator>(const Deg<IntType> & a, const Hour<IntType> & b) noexcept
 	{
 		return (b - a).toRad() < 0;
 	}
 
 	template <typename IntType>
-	inline bool operator>(const Hour<IntType> & a, const Deg<IntType> & b)
+	inline bool operator>(const Hour<IntType> & a, const Deg<IntType> & b) noexcept
 	{
 		return (b - a).toRad() < 0;
 	}
@@ -491,27 +491,27 @@ namespace anglib
 	//---------------------LESS_THAN----------
 	//---Deg
 	template <typename IntType>
-	inline bool operator<(const Deg<IntType> & a, const Deg<IntType> & b)
+	inline bool operator<(const Deg<IntType> & a, const Deg<IntType> & b) noexcept
 	{
 		return b > a;
 	}
 	
 	//---Hour
 	template <typename IntType>
-	inline bool operator<(const Hour<IntType> & a, const Hour<IntType> & b)
+	inline bool operator<(const Hour<IntType> & a, const Hour<IntType> & b) noexcept
 	{
 		return b > a;
 	}
 	
 	//---Hour & Deg
 	template <typename IntType>
-	inline bool operator<(const Deg<IntType> & a, const Hour<IntType> & b)
+	inline bool operator<(const Deg<IntType> & a, const Hour<IntType> & b) noexcept
 	{
 		return b > a;
 	}
 
 	template <typename IntType>
-	inline bool operator<(const Hour<IntType> & a, const Deg<IntType> & b)
+	inline bool operator<(const Hour<IntType> & a, const Deg<IntType> & b) noexcept
 	{
 		return b > a;
 	}
