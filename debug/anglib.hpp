@@ -14,7 +14,8 @@ namespace anglib
 		const short HOUR_IN_2PI = 24;
 		const short DEG_IN_2PI = 360;
 
-		const double SEC_IN_RAD = 360 * 60 * 60 / (2 * M_PI);
+		const double SEC_IN_RAD = DEG_IN_2PI * SEC_IN_DEG / (2 * M_PI);
+		const double HSEC_IN_RAD = HOUR_IN_2PI * SEC_IN_DEG / (2 * M_PI);
 		const double MIN_AT_HOUR = double(1) / MIN_IN_DEG;
 		const double SEC_AT_HOUR = double(1) / SEC_IN_DEG;
 
@@ -46,8 +47,13 @@ namespace anglib
 			deg_ = tmp.deg(), min_ = tmp.min(), sec_ = tmp.sec();
 		}
 			
-		Deg(const IntType deg__, const IntType min__, const double sec__) noexcept : sec_(sec__), min_(min__), deg_(deg__)
-		{}
+		Deg(const IntType deg__, const IntType min__, const double sec__) noexcept 		
+		{
+			Deg tmp((sec__ + min__ * Const::MIN_IN_DEG + deg__ * Const::SEC_IN_DEG) / Const::SEC_IN_RAD);
+			sec_ = tmp.sec();
+			min_ = tmp.min();
+			deg_ = tmp.deg();
+		}
 
 		Deg(double rad) noexcept 
 		{
@@ -160,8 +166,13 @@ namespace anglib
 			hour_ = tmp.hour(), min_ = tmp.min(), sec_ = tmp.sec();
 		}
 
-		Hour(short hour__, short min__, double sec__) noexcept : sec_(sec__), min_(min__), hour_(hour__)
-		{}
+		Hour(short hour__, short min__, double sec__) noexcept 
+		{
+			Hour tmp((sec__ + min__ * Const::MIN_IN_DEG + hour__ * Const::SEC_IN_DEG) / Const::HSEC_IN_RAD);
+			sec_ = tmp.sec();
+			min_ = tmp.min();
+			hour_ = tmp.hour();
+		}
 
 		Hour(double rad) noexcept
 		{
