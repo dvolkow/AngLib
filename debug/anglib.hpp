@@ -138,10 +138,6 @@ namespace anglib
 			return s;
 		}
 
-		bool operator==(const Deg & a)
-		{
-			return a.deg() == this->deg_ && this->min_ == a.min() && fabs(a.sec() - this->sec_) < Const::PRECISION_COMPARE;
-		}
 	}; // end Deg
 
 	template <typename IntType>
@@ -258,10 +254,6 @@ namespace anglib
 			return s;
 		}
 
-		bool operator==(const Hour & a) const
-		{
-			return a.hour() == this->hour_ && this->min_ == a.min() && fabs(a.sec() - this->sec_) < Const::PRECISION_COMPARE;
-		}
 	}; // end Hour
 
 
@@ -283,8 +275,20 @@ namespace anglib
 		return a.deg() == b.deg() && b.min() == a.min() && fabs(a.sec() - b.sec()) < Const::PRECISION_COMPARE;
 	}
 
+	template <typename IntTypeA, typename IntTypeB>
+	inline bool operator==(const Deg<IntTypeA> & a, const Deg<IntTypeB> & b) noexcept
+	{
+		return a == Deg<IntTypeA>(b);
+	}
+
 	template <typename IntType>
 	inline bool operator!=(const Deg<IntType> & a, const Deg<IntType> & b) noexcept
+	{
+		return !(a == b);
+	}
+
+	template <typename IntTypeA, typename IntTypeB>
+	inline bool operator!=(const Deg<IntTypeA> & a, const Deg<IntTypeB> & b) noexcept
 	{
 		return !(a == b);
 	}
@@ -320,8 +324,20 @@ namespace anglib
 		return a.hour() == b.hour() && b.min() == a.min() && fabs(a.sec() - b.sec()) < Const::PRECISION_COMPARE;
 	}
 
+	template <typename IntTypeA, typename IntTypeB>
+	inline bool operator==(const Hour<IntTypeA> & a, const Hour<IntTypeB> & b) noexcept
+	{
+		return a == Hour<IntTypeA>(b);
+	}
+
 	template <typename IntType>
 	inline bool operator!=(const Hour<IntType> & a, const Hour<IntType> & b) noexcept
+	{
+		return !(a == b);
+	}
+
+	template <typename IntTypeA, typename IntTypeB>
+	inline bool operator!=(const Hour<IntTypeA> & a, const Hour<IntTypeB> & b) noexcept
 	{
 		return !(a == b);
 	}
@@ -357,10 +373,22 @@ namespace anglib
 		return fabs(a.toRad() - b.toRad()) < Const::PRECISION_COMPARE;
 	}
 
+	template <typename IntTypeD, typename IntTypeH>
+	inline bool operator==(const Hour<IntTypeH> & h, const Deg<IntTypeD> & d) noexcept
+	{
+		return fabs(h.toRad() - d.toRad()) < Const::PRECISION_COMPARE;
+	}
+
 	template <typename IntType>
 	inline bool operator==(const Deg<IntType> & b, const Hour<IntType> & a) noexcept
 	{
 		return fabs(a.toRad() - b.toRad()) < Const::PRECISION_COMPARE;
+	}
+
+	template <typename IntTypeD, typename IntTypeH>
+	inline bool operator==(const Deg<IntTypeD> & d, const Hour<IntTypeH> & h) noexcept
+	{
+		return fabs(h.toRad() - d.toRad()) < Const::PRECISION_COMPARE;
 	}
 
 	template <typename IntType>
@@ -369,10 +397,22 @@ namespace anglib
 		return !(a == b);
 	}
 
+	template <typename IntTypeD, typename IntTypeH>
+	inline bool operator!=(const Hour<IntTypeH> & h, const Deg<IntTypeD> & d) noexcept
+	{
+		return !(d == h);
+	}
+
 	template <typename IntType>
 	inline bool operator!=(const Deg<IntType> & b, const Hour<IntType> & a) noexcept
 	{
 		return !(a == b);
+	}
+
+	template <typename IntTypeD, typename IntTypeH>
+	inline bool operator!=(const Deg<IntTypeD> & d, const Hour<IntTypeH> & h) noexcept
+	{
+		return !(d == h);
 	}
 
 	//---------------------ADD----------
@@ -381,6 +421,12 @@ namespace anglib
 	inline const Deg<IntType> operator+(const Deg<IntType> & dl, const Deg<IntType> & dr) noexcept
 	{
 		return Deg<IntType>(dl.toRad() + dr.toRad());
+	}
+
+	template <typename IntTypeA, typename IntTypeB>
+	inline const Deg<IntTypeA> operator+(const Deg<IntTypeA> & dl, const Deg<IntTypeB> & dr) noexcept
+	{
+		return Deg<IntTypeA>(dl.toRad() + dr.toRad());
 	}
 
 	template <typename AriphmeticType, typename IntType>
@@ -402,6 +448,12 @@ namespace anglib
 		return Hour<IntType>(dl.toRad() + dr.toRad());
 	}
 
+	template <typename IntTypeA, typename IntTypeB>
+	inline const Hour<IntTypeA> operator+(const Hour<IntTypeA> & dl, const Hour<IntTypeB> & dr) noexcept
+	{
+		return Hour<IntTypeA>(dl.toRad() + dr.toRad());
+	}
+
 	template <typename AriphmeticType, typename IntType>
 	inline const Hour<IntType> operator+(const Hour<IntType> & dl, const AriphmeticType & adds) noexcept
 	{
@@ -421,10 +473,22 @@ namespace anglib
 		return Hour<IntType>(dl.toRad() + dr.toRad());
 	}
 
+	template <typename IntTypeD, typename IntTypeH>
+	inline const Hour<IntTypeH> operator+(const Hour<IntTypeH> & dl, const Deg<IntTypeD> & dr) noexcept
+	{
+		return Hour<IntTypeH>(dl.toRad() + dr.toRad());
+	}
+
 	template <typename IntType>
 	inline const Deg<IntType> operator+(const Deg<IntType> & dl, const Hour<IntType> & dr) noexcept
 	{
 		return Deg<IntType>(dl.toRad() + dr.toRad());
+	}
+
+	template <typename IntTypeD, typename IntTypeH>
+	inline const Deg<IntTypeD> operator+(const Deg<IntTypeD> & dl, const Hour<IntTypeH> & dr) noexcept
+	{
+		return Deg<IntTypeD>(dl.toRad() + dr.toRad());
 	}
 
 	//---------------------SUB----------
@@ -433,6 +497,12 @@ namespace anglib
 	inline const Deg<IntType> operator-(const Deg<IntType> & dl, const Deg<IntType> & dr) noexcept
 	{
 		return Deg<IntType>(dl.toRad() - dr.toRad());
+	}
+
+	template <typename IntTypeA, typename IntTypeB>
+	inline const Deg<IntTypeA> operator-(const Deg<IntTypeA> & dl, const Deg<IntTypeB> & dr) noexcept
+	{
+		return Deg<IntTypeA>(dl.toRad() - dr.toRad());
 	}
 
 	template <typename AriphmeticType, typename IntType>
@@ -454,6 +524,12 @@ namespace anglib
 		return Hour<IntType>(dl.toRad() - dr.toRad());
 	}
 
+	template <typename IntTypeA, typename IntTypeB>
+	inline const Hour<IntTypeA> operator-(const Hour<IntTypeA> & dl, const Hour<IntTypeB> & dr) noexcept
+	{
+		return Hour<IntTypeA>(dl.toRad() - dr.toRad());
+	}
+
 	template <typename AriphmeticType, typename IntType>
 	inline const Hour<IntType> operator-(const Hour<IntType> & dl, const AriphmeticType & subd) noexcept
 	{
@@ -473,10 +549,22 @@ namespace anglib
 		return Hour<IntType>(dl.toRad() - dr.toRad());
 	}
 
+	template <typename IntTypeD, typename IntTypeH>
+	inline const Hour<IntTypeH> operator-(const Hour<IntTypeH> & dl, const Deg<IntTypeD> & dr) noexcept
+	{
+		return Hour<IntTypeH>(dl.toRad() - dr.toRad());
+	}
+
 	template <typename IntType>
 	inline const Deg<IntType> operator-(const Deg<IntType> & dl, const Hour<IntType> & dr) noexcept
 	{
 		return Deg<IntType>(dl.toRad() - dr.toRad());
+	}
+
+	template <typename IntTypeD, typename IntTypeH>
+	inline const Deg<IntTypeD> operator-(const Deg<IntTypeD> & dl, const Hour<IntTypeH> & dr) noexcept
+	{
+		return Deg<IntTypeD>(dl.toRad() - dr.toRad());
 	}
 
 	//---------------------DIV----------
@@ -487,10 +575,11 @@ namespace anglib
 		return Deg<IntType>(dl.toRad() / divs);
 	}
 
+	//---ATTENTION!---specific semantic
 	template <typename AriphmeticType, typename IntType>
-	inline const Deg<IntType> operator/ (const AriphmeticType & divs, const Deg<IntType> & dl) noexcept
+	inline double operator/ (const AriphmeticType & divs, const Deg<IntType> & dl) noexcept
 	{
-		return Deg<IntType>(divs / dl.toRad());
+		return divs / dl.toRad();
 	}
 
 	//---Hour
@@ -500,10 +589,11 @@ namespace anglib
 		return Hour<IntType>(dl.toRad() / divs);
 	}
 
+	//---ATTENTION!---specific semantic
 	template <typename AriphmeticType, typename IntType>
-	inline const Hour<IntType> operator/ (const AriphmeticType & divs, const Hour<IntType> & dl) noexcept
+	inline double operator/ (const AriphmeticType & divs, const Hour<IntType> & dl) noexcept
 	{
-		return Hour<IntType>(divs / dl.toRad());
+		return divs / dl.toRad();
 	}
 
 	//---------------------MUL----------
@@ -541,9 +631,21 @@ namespace anglib
 		return (b - a).toRad() < 0;
 	}
 	
+	template <typename IntTypeA, typename IntTypeB>
+	inline bool operator>(const Deg<IntTypeA> & a, const Deg<IntTypeB> & b) noexcept
+	{
+		return (b - a).toRad() < 0;
+	}
+
 	//---Hour
 	template <typename IntType>
 	inline bool operator>(const Hour<IntType> & a, const Hour<IntType> & b) noexcept
+	{
+		return (b - a).toRad() < 0;
+	}
+	
+	template <typename IntTypeA, typename IntTypeB>
+	inline bool operator>(const Hour<IntTypeA> & a, const Hour<IntTypeB> & b) noexcept
 	{
 		return (b - a).toRad() < 0;
 	}
@@ -554,17 +656,35 @@ namespace anglib
 	{
 		return (b - a).toRad() < 0;
 	}
+	
+	template <typename IntTypeD, typename IntTypeH>
+	inline bool operator>(const Deg<IntTypeD> & d, const Hour<IntTypeH> & h) noexcept
+	{
+		return (h - d).toRad() < 0;
+	}
 
 	template <typename IntType>
 	inline bool operator>(const Hour<IntType> & a, const Deg<IntType> & b) noexcept
 	{
 		return (b - a).toRad() < 0;
 	}
+	
+	template <typename IntTypeD, typename IntTypeH>
+	inline bool operator>(const Hour<IntTypeH> & h, const Deg<IntTypeD> & d) noexcept
+	{
+		return (h - d).toRad() < 0;
+	}
 
 	//---------------------LESS_THAN----------
 	//---Deg
 	template <typename IntType>
 	inline bool operator<(const Deg<IntType> & a, const Deg<IntType> & b) noexcept
+	{
+		return b > a;
+	}
+	
+	template <typename IntTypeA, typename IntTypeB>
+	inline bool operator<(const Deg<IntTypeA> & a, const Deg<IntTypeB> & b) noexcept
 	{
 		return b > a;
 	}
@@ -576,17 +696,35 @@ namespace anglib
 		return b > a;
 	}
 	
+	template <typename IntTypeA, typename IntTypeB>
+	inline bool operator<(const Hour<IntTypeA> & a, const Hour<IntTypeB> & b) noexcept
+	{
+		return b > a;
+	}
+	
 	//---Hour & Deg
 	template <typename IntType>
 	inline bool operator<(const Deg<IntType> & a, const Hour<IntType> & b) noexcept
 	{
 		return b > a;
 	}
+	
+	template <typename IntTypeD, typename IntTypeH>
+	inline bool operator<(const Deg<IntTypeD> & d, const Hour<IntTypeH> & h) noexcept
+	{
+		return h > d;
+	}
 
 	template <typename IntType>
 	inline bool operator<(const Hour<IntType> & a, const Deg<IntType> & b) noexcept
 	{
 		return b > a;
+	}
+	
+	template <typename IntTypeD, typename IntTypeH>
+	inline bool operator<(const Hour<IntTypeH> & h, const Deg<IntTypeD> & d) noexcept
+	{
+		return d > h;
 	}
 }
 
