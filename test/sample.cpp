@@ -168,5 +168,12 @@ int main()
 	std::cout << "Normalize angle: " << denormalize_angle << "\n";
 	std::cout << "Normalize angle(h): " << hdenormalize_angle << "\n";
 
+	//--Операторы ввода
+	degint in_d;
+	hourshort in_h;
+	std::cin >> in_d;
+	std::cout << in_d << "\n";
+	std::cin >> in_h;
+	std::cout << in_h << "\n";
 	
 }
