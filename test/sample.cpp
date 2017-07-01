@@ -114,6 +114,8 @@ int main()
 	//--будет в часах:
 	std::cout << "ha1 + da1 = " << (ha1 + da1) << "\n";
 	std::cout << "ha1 - da1 = " << (ha1 - da1) << "\n";
+	std::cout << "da2 + ha1 = " << (da2 + ha1) << "\n";
+	std::cout << "da2 - ha1 = " << (da2 - ha1) << "\n";
 
 	//--Углы можно умножать и делить на числовые типы, и обратно:
 	std::cout << "radian * 3.14 = " << (radian * 3.14) << "\n";
@@ -123,12 +125,48 @@ int main()
 	//--вого типа в угловой, т.е. подразумевается, что делят угол в
 	//--радианной мере:
 	std::cout << "1 / radian = " << (1 / radian) << "\n"; 
-	
-	
-	
-	
-	
-	
-	
+	std::cout << "PI / 360deg = " << (M_PI / degint(360, 0, 0)) << "\n"; 
 
+	//--При операциях с числовыми типами происходят аналогичные 
+	//--преобразования числовых типов в углы:
+	std::cout << "ha1 + 1 = " << (ha1 + 1) << "\n";
+	std::cout << "1 + radian = " << (1 + radian) << "\n";
+	std::cout << "PI + da1 = " << (M_PI + da1) << "\n";
+	std::cout << "da2 - PI/2 = " << (da2 - M_PI/2) << "\n";
+
+	//--Приведения углов
+	
+	//--Можно приводить углы к заданному диапазону значений
+	//--Функция-член mod_2pi приводит значение угла к проме-
+	//--жутку [-360, 360] (или [-24, 24]):
+	//----ВНИМАНИЕ! функция изменяет состояние класса
+	degshort ten_rad(100*radian);
+	hourint hten_rad(100*radian);
+	std::cout << "100 rad: " << ten_rad << "\n";
+	std::cout << "100 rad: " << hten_rad << "\n";
+	ten_rad.mod_2pi();
+	hten_rad.mod_2pi();
+	std::cout << "reduce 100 rad: " << ten_rad << "\n";
+	std::cout << "reduce 100 rad: " << hten_rad << "\n";
+
+	//--Можно узнать число оборотов с помощью константной 
+	//--параметризованной функцией:
+	ten_rad = 100 * radian;
+	hten_rad = 100 * radian;
+	std::cout << "In 100 rad: " << ten_rad.mod_2pi<int>() << " circles\n";
+	std::cout << "In 100 rad: " << hten_rad.mod_2pi<int>() << " circles\n";
+
+	//--Нормализация к виду положительного, меньше 2pi ра-
+	//--диан угла:
+	degint denormalize_angle = degint(-275,0,0);
+	hourint hdenormalize_angle = hourint(-15,-25,-34);
+	std::cout << "Not normalize angle: " << denormalize_angle << "\n";
+	std::cout << "Not normalize angle(h): " << hdenormalize_angle << "\n";
+
+	denormalize_angle.normalize();
+	hdenormalize_angle.normalize();
+	std::cout << "Normalize angle: " << denormalize_angle << "\n";
+	std::cout << "Normalize angle(h): " << hdenormalize_angle << "\n";
+
+	
 }
