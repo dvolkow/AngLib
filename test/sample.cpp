@@ -126,6 +126,10 @@ int main()
 	//--радианной мере:
 	std::cout << "1 / radian = " << (1 / radian) << "\n"; 
 	std::cout << "PI / 360deg = " << (M_PI / degint(360, 0, 0)) << "\n"; 
+	//--Углы можно делить друг на друга. Результат double:
+	std::cout << "ha1 / ha2 = " << (ha1 / ha2) << "\n"; 
+	std::cout << "da2 / ha1 = " << (da1 / ha1) << "\n"; 
+	
 
 	//--При операциях с числовыми типами происходят аналогичные 
 	//--преобразования числовых типов в углы:
@@ -169,11 +173,14 @@ int main()
 	std::cout << "Normalize angle(h): " << hdenormalize_angle << "\n";
 
 	//--Операторы ввода
+	std::cout << "Input your angle (deg min sec): \n";
+	
 	degint in_d;
 	hourshort in_h;
 	std::cin >> in_d;
 	std::cout << in_d << "\n";
+
+	std::cout << "Input your angle (hour m s): \n";
 	std::cin >> in_h;
 	std::cout << in_h << "\n";
-	
 }

@@ -149,6 +149,8 @@ namespace anglib
 
 	}; // end Deg
 
+
+
 	template <typename IntType>
 	class Hour
 	{
@@ -600,6 +602,20 @@ namespace anglib
 		return divs / dl.toRad();
 	}
 
+	//---ATTENTION!---specific semantic
+	template <typename IntType>
+	inline double operator/ (const Deg<IntType> & a, const Deg<IntType> & b) noexcept
+	{
+		return a.toRad() / b.toRad();
+	}
+
+	//---ATTENTION!---specific semantic
+	template <typename IntTypeA, typename IntTypeB>
+	inline double operator/ (const Deg<IntTypeA> & a, const Deg<IntTypeB> & b) noexcept
+	{
+		return a.toRad() / b.toRad();
+	}
+
 	//---Hour
 	template <typename AriphmeticType, typename IntType>
 	inline const Hour<IntType> operator/ (const Hour<IntType> & dl, const AriphmeticType & divs) noexcept
@@ -614,6 +630,35 @@ namespace anglib
 		return divs / dl.toRad();
 	}
 
+	//---ATTENTION!---specific semantic
+	template <typename IntType>
+	inline double operator/ (const Hour<IntType> & a, const Hour<IntType> & b) noexcept
+	{
+		return a.toRad() / b.toRad();
+	}
+
+	//---ATTENTION!---specific semantic
+	template <typename IntTypeA, typename IntTypeB>
+	inline double operator/ (const Hour<IntTypeA> & a, const Hour<IntTypeB> & b) noexcept
+	{
+		return a.toRad() / b.toRad();
+	}
+
+	//Deg / Hour cases
+	//---ATTENTION!---specific semantic
+	template <typename IntTypeD, typename IntTypeH>
+	inline double operator/ (const Deg<IntTypeD> & d, const Hour<IntTypeH> & h) noexcept
+	{
+		return d.toRad() / h.toRad();
+	}
+	
+	//---ATTENTION!---specific semantic
+	template <typename IntTypeD, typename IntTypeH>
+	inline double operator/ (const Hour<IntTypeH> & h, const Deg<IntTypeD> & d) noexcept
+	{
+		return h.toRad() / d.toRad();
+	}
+	
 	//---------------------MUL----------
 	//---Deg
 	template <typename AriphmeticType, typename IntType>
