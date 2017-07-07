@@ -1,4 +1,5 @@
-#include <my_dev/anglib.hpp>
+//#include <my_dev/anglib.hpp>
+#include "../debug/anglib.hpp"
 
 using anglib::Const::pi; // Угол в 180 градусов
 using anglib::Deg; // Тип для хранения градусного представления
@@ -16,6 +17,10 @@ typedef Hour<int> hourint;
 typedef Deg<uint> udegint;
 typedef Hour<uint> uhourint;
 
+void println()
+{
+	std::cout << "------------------------------\n";
+}
 
 int main()
 {
@@ -73,6 +78,7 @@ int main()
 	std::cout << d << "\n";
 	std::cout << hc << "\n";
 	std::cout << hd << "\n";
+	println();
 
 	//--Сравнение углов 
 	degshort da1(180, 1, 0), da2(180, 0, 0.899);
@@ -99,6 +105,7 @@ int main()
 	std::cout << "da2 > ha2 ? " << (ha1 > da2) << "\n"; 
 	std::cout << "ha1 == da1 ? " << (da1 == ha2) << "\n"; 
 	std::cout << "ha1 != da1 ? " << (da1 != ha1) << "\n"; 
+	println();
 								
 
 	//--Арифметика 
@@ -116,6 +123,7 @@ int main()
 	std::cout << "ha1 - da1 = " << (ha1 - da1) << "\n";
 	std::cout << "da2 + ha1 = " << (da2 + ha1) << "\n";
 	std::cout << "da2 - ha1 = " << (da2 - ha1) << "\n";
+	println();
 
 	//--Углы можно умножать и делить на числовые типы, и обратно:
 	std::cout << "radian * 3.14 = " << (radian * 3.14) << "\n";
@@ -129,6 +137,7 @@ int main()
 	//--Углы можно делить друг на друга. Результат double:
 	std::cout << "ha1 / ha2 = " << (ha1 / ha2) << "\n"; 
 	std::cout << "da2 / ha1 = " << (da1 / ha1) << "\n"; 
+	println();
 	
 
 	//--При операциях с числовыми типами происходят аналогичные 
@@ -137,6 +146,7 @@ int main()
 	std::cout << "1 + radian = " << (1 + radian) << "\n";
 	std::cout << "PI + da1 = " << (M_PI + da1) << "\n";
 	std::cout << "da2 - PI/2 = " << (da2 - M_PI/2) << "\n";
+	println();
 
 	//--Приведения углов
 	
@@ -152,6 +162,7 @@ int main()
 	hten_rad.mod_2pi();
 	std::cout << "reduce 100 rad: " << ten_rad << "\n";
 	std::cout << "reduce 100 rad: " << hten_rad << "\n";
+	println();
 
 	//--Можно узнать число оборотов с помощью константной 
 	//--параметризованной функцией:
@@ -159,6 +170,7 @@ int main()
 	hten_rad = 100 * radian;
 	std::cout << "In 100 rad: " << ten_rad.mod_2pi<int>() << " circles\n";
 	std::cout << "In 100 rad: " << hten_rad.mod_2pi<int>() << " circles\n";
+	println();
 
 	//--Нормализация к виду положительного, меньше 2pi ра-
 	//--диан угла:
@@ -171,16 +183,49 @@ int main()
 	hdenormalize_angle.normalize();
 	std::cout << "Normalize angle: " << denormalize_angle << "\n";
 	std::cout << "Normalize angle(h): " << hdenormalize_angle << "\n";
+	println();
 
 	//--Операторы ввода
-	std::cout << "Input your angle (deg min sec): \n";
+//	std::cout << "Input your angle (deg min sec): \n";
 	
-	degint in_d;
-	hourshort in_h;
-	std::cin >> in_d;
-	std::cout << in_d << "\n";
+//	degint in_d;
+//	hourshort in_h;
+//	std::cin >> in_d;
+//	std::cout << in_d << "\n";
 
-	std::cout << "Input your angle (hour m s): \n";
-	std::cin >> in_h;
-	std::cout << in_h << "\n";
+//	std::cout << "Input your angle (hour m s): \n";
+//	std::cin >> in_h;
+//	std::cout << in_h << "\n";
+
+	//--Операторы типа +=:
+	std::cout << "Other ops (type +=): \n";
+	ha1 += 1;
+
+	std::cout << "da1: " << da1 << "\n";
+	da1 += 1;
+	std::cout << "da1 += ha1: " << da1 << "\n";
+	short a1 = 1;
+	a1 -= da1;
+	std::cout << "1 -= da1: " << a1 << "\n";
+
+	degint tmp_pi = anglib::Const::pi;
+	tmp_pi *= 2;
+	std::cout << "pi *= 2: " << tmp_pi << "\n";
+	tmp_pi /= 4;
+	std::cout << "pi /= 2: " << tmp_pi << "\n";
+	println();
+
+	std::cout << "INC:\n";
+	std::cout << "tmp_pi: " << tmp_pi << "\n";
+	std::cout << "tmp_pi++: " << ++tmp_pi << "\n";
+	println();
+	std::cout << "DEC:\n";
+	std::cout << "tmp_pi: " << tmp_pi << "\n";
+	std::cout << "--tmp_pi:" << --tmp_pi << "\n";
+	println();
+
+	//--Унaрные операторы:
+	-a;
+	ha1 = -da2 + (++ha2);
+
 }
