@@ -794,28 +794,28 @@ namespace anglib
 	//---------------------+= ---------------------
 	//---Deg
 	template <typename IntType, typename AriphmeticType>
-	Deg<IntType> & operator+=(Deg<IntType> & d, const AriphmeticType a) noexcept
+	inline Deg<IntType> & operator+=(Deg<IntType> & d, const AriphmeticType a) noexcept
 	{
 		d = d + a;
 		return d;
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	AriphmeticType & operator+=(AriphmeticType & a, const Deg<IntType> & d) noexcept
+	inline AriphmeticType & operator+=(AriphmeticType & a, const Deg<IntType> & d) noexcept
 	{
 		a = a + d.toRad();
 		return a;
 	}
 
 	template <typename IntTypeA, typename IntTypeB>
-	Deg<IntTypeA> & operator+=(Deg<IntTypeA> & a, const Deg<IntTypeB> & b) noexcept
+	inline Deg<IntTypeA> & operator+=(Deg<IntTypeA> & a, const Deg<IntTypeB> & b) noexcept
 	{
 		a = a + b;
 		return a;
 	}
 
 	template <typename IntTypeD, typename IntTypeH>
-	Deg<IntTypeD> & operator+=(Deg<IntTypeD> & d, const Hour<IntTypeH> & h) noexcept
+	inline Deg<IntTypeD> & operator+=(Deg<IntTypeD> & d, const Hour<IntTypeH> & h) noexcept
 	{
 		d = d + h;
 		return d;
@@ -823,28 +823,28 @@ namespace anglib
 
 	//---Hour
 	template <typename IntType, typename AriphmeticType>
-	Hour<IntType> & operator+=(Hour<IntType> & h, const AriphmeticType a) noexcept
+	inline Hour<IntType> & operator+=(Hour<IntType> & h, const AriphmeticType a) noexcept
 	{
 		h = h + a;
 		return h;
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	AriphmeticType & operator+=(AriphmeticType & a, const Hour<IntType> & h) noexcept
+	inline AriphmeticType & operator+=(AriphmeticType & a, const Hour<IntType> & h) noexcept
 	{
 		a = a + h.toRad();
 		return a;
 	}
 
 	template <typename IntTypeA, typename IntTypeB>
-	Hour<IntTypeA> & operator+=(Hour<IntTypeA> & a, const Hour<IntTypeB> & b) noexcept
+	inline Hour<IntTypeA> & operator+=(Hour<IntTypeA> & a, const Hour<IntTypeB> & b) noexcept
 	{
 		a = a + b;
 		return a;
 	}
 
 	template <typename IntTypeD, typename IntTypeH>
-	Hour<IntTypeD> & operator+=(Hour<IntTypeD> & h, const Deg<IntTypeH> & d) noexcept
+	inline Hour<IntTypeD> & operator+=(Hour<IntTypeD> & h, const Deg<IntTypeH> & d) noexcept
 	{
 		h = d + h;
 		return h;
@@ -853,28 +853,28 @@ namespace anglib
 	//----------------------= ---------------------
 	//---Deg
 	template <typename IntType, typename AriphmeticType>
-	Deg<IntType> & operator-=(Deg<IntType> & d, const AriphmeticType a) noexcept
+	inline Deg<IntType> & operator-=(Deg<IntType> & d, const AriphmeticType a) noexcept
 	{
 		d = d - a;
 		return d;
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	AriphmeticType & operator-=(AriphmeticType & a, const Deg<IntType> & d) noexcept
+	inline AriphmeticType & operator-=(AriphmeticType & a, const Deg<IntType> & d) noexcept
 	{
 		a = a - d.toRad();
 		return a;
 	}
 
 	template <typename IntTypeA, typename IntTypeB>
-	Deg<IntTypeA> & operator-=(Deg<IntTypeA> & a, const Deg<IntTypeB> & b) noexcept
+	inline Deg<IntTypeA> & operator-=(Deg<IntTypeA> & a, const Deg<IntTypeB> & b) noexcept
 	{
 		a = a - b;
 		return a;
 	}
 
 	template <typename IntTypeD, typename IntTypeH>
-	Deg<IntTypeD> & operator-=(Deg<IntTypeD> & d, const Hour<IntTypeH> & h) noexcept
+	inline Deg<IntTypeD> & operator-=(Deg<IntTypeD> & d, const Hour<IntTypeH> & h) noexcept
 	{
 		d = d - h;
 		return d;
@@ -882,28 +882,28 @@ namespace anglib
 
 	//---Hour
 	template <typename IntType, typename AriphmeticType>
-	Hour<IntType> & operator-=(Hour<IntType> & h, const AriphmeticType a) noexcept
+	inline Hour<IntType> & operator-=(Hour<IntType> & h, const AriphmeticType a) noexcept
 	{
 		h = h - a;
 		return h;
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	AriphmeticType & operator-=(AriphmeticType & a, const Hour<IntType> & h) noexcept
+	inline AriphmeticType & operator-=(AriphmeticType & a, const Hour<IntType> & h) noexcept
 	{
 		a = a - h.toRad();
 		return a;
 	}
 
 	template <typename IntTypeA, typename IntTypeB>
-	Hour<IntTypeA> & operator-=(Hour<IntTypeA> & a, const Hour<IntTypeB> & b) noexcept
+	inline Hour<IntTypeA> & operator-=(Hour<IntTypeA> & a, const Hour<IntTypeB> & b) noexcept
 	{
 		a = a - b;
 		return a;
 	}
 
 	template <typename IntTypeD, typename IntTypeH>
-	Hour<IntTypeD> & operator-=(Hour<IntTypeD> & h, const Deg<IntTypeH> & d) noexcept
+	inline Hour<IntTypeD> & operator-=(Hour<IntTypeD> & h, const Deg<IntTypeH> & d) noexcept
 	{
 		h = h - d;
 		return h;
@@ -912,14 +912,14 @@ namespace anglib
 	//---------------------*= ---------------------
 	//---Deg
 	template <typename IntType, typename AriphmeticType>
-	Deg<IntType> & operator*=(Deg<IntType> & d, const AriphmeticType a) noexcept
+	inline Deg<IntType> & operator*=(Deg<IntType> & d, const AriphmeticType a) noexcept
 	{
 		d = d * a;
 		return d;
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	AriphmeticType & operator*=(AriphmeticType & a, const Deg<IntType> & d) noexcept
+	inline AriphmeticType & operator*=(AriphmeticType & a, const Deg<IntType> & d) noexcept
 	{
 		a = a * d.toRad();
 		return a;
@@ -927,14 +927,14 @@ namespace anglib
 
 	//---Hour
 	template <typename IntType, typename AriphmeticType>
-	Hour<IntType> & operator*=(Hour<IntType> & h, const AriphmeticType a) noexcept
+	inline Hour<IntType> & operator*=(Hour<IntType> & h, const AriphmeticType a) noexcept
 	{
 		h = h * a;
 		return h;
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	AriphmeticType & operator*=(AriphmeticType & a, const Hour<IntType> & h) noexcept
+	inline AriphmeticType & operator*=(AriphmeticType & a, const Hour<IntType> & h) noexcept
 	{
 		a = a * h.toRad();
 		return a;
@@ -943,14 +943,14 @@ namespace anglib
 	//---------------------/= ---------------------
 	//---Deg
 	template <typename IntType, typename AriphmeticType>
-	Deg<IntType> & operator/=(Deg<IntType> & d, const AriphmeticType a) noexcept
+	inline Deg<IntType> & operator/=(Deg<IntType> & d, const AriphmeticType a) noexcept
 	{
 		d = d / a;
 		return d;
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	AriphmeticType & operator/=(AriphmeticType & a, const Deg<IntType> & d) noexcept
+	inline AriphmeticType & operator/=(AriphmeticType & a, const Deg<IntType> & d) noexcept
 	{
 		a = a / d.toRad();
 		return a;
@@ -958,14 +958,14 @@ namespace anglib
 
 	//---Hour
 	template <typename IntType, typename AriphmeticType>
-	Hour<IntType> & operator/=(Hour<IntType> & h, const AriphmeticType a) noexcept
+	inline Hour<IntType> & operator/=(Hour<IntType> & h, const AriphmeticType a) noexcept
 	{
 		h = h / a;
 		return h;
 	}
 
 	template <typename IntType, typename AriphmeticType>
-	AriphmeticType & operator/=(AriphmeticType & a, const Hour<IntType> & h) noexcept
+	inline AriphmeticType & operator/=(AriphmeticType & a, const Hour<IntType> & h) noexcept
 	{
 		a = a / h.toRad();
 		return a;
@@ -973,14 +973,14 @@ namespace anglib
 
 	//---------------------Op ++ ------------------
 	template <typename IntType>
-	Deg<IntType> & operator++(Deg<IntType> & a) noexcept
+	inline Deg<IntType> & operator++(Deg<IntType> & a) noexcept
 	{
 		a += Deg<IntType>(0, 0, 1);
 		return a;
 	}
 
 	template <typename IntType>
-	Hour<IntType> & operator++(Hour<IntType> & a) noexcept
+	inline Hour<IntType> & operator++(Hour<IntType> & a) noexcept
 	{
 		a += Hour<IntType>(0, 0, 1);
 		return a;
@@ -988,14 +988,14 @@ namespace anglib
 
 	//---------------------Op -- ------------------
 	template <typename IntType>
-	Deg<IntType> & operator--(Deg<IntType> & a) noexcept
+	inline Deg<IntType> & operator--(Deg<IntType> & a) noexcept
 	{
 		a -= Deg<IntType>(0, 0, 1);
 		return a;
 	}
 
 	template <typename IntType>
-	Hour<IntType> & operator--(Hour<IntType> & a) noexcept
+	inline Hour<IntType> & operator--(Hour<IntType> & a) noexcept
 	{
 		a -= Hour<IntType>(0, 0, 1);
 		return a;
@@ -1003,25 +1003,25 @@ namespace anglib
 
 	//---------------------UNARY + and - ----------
 	template <typename IntType>
-	const Deg<IntType> & operator+(const Deg<IntType> & a) noexcept
+	inline const Deg<IntType> & operator+(const Deg<IntType> & a) noexcept
 	{
 		return a;
 	}
 
 	template <typename IntType>
-	const Hour<IntType> & operator+(const Hour<IntType> & a) noexcept
+	inline const Hour<IntType> & operator+(const Hour<IntType> & a) noexcept
 	{
 		return a;
 	}
 	
 	template <typename IntType>
-	const Deg<IntType> operator-(const Deg<IntType> & a) noexcept
+	inline const Deg<IntType> operator-(const Deg<IntType> & a) noexcept
 	{
 		return Deg<IntType>(-a.toRad());
 	}
 
 	template <typename IntType>
-	const Hour<IntType> operator-(const Hour<IntType> & a) noexcept
+	inline const Hour<IntType> operator-(const Hour<IntType> & a) noexcept
 	{
 		return Hour<IntType>(-a.toRad());
 	}
