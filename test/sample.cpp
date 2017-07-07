@@ -228,4 +228,44 @@ int main()
 	-a;
 	ha1 = -da2 + (++ha2);
 
+	//--sizeof структуры:
+	Deg<char> char_deg;
+	std::cout << "sizeof(Deg<char>): " << sizeof(char_deg) << "\n";
+	std::cout << "sizeof(Deg<short>): " << sizeof(radian) << "\n";
+	std::cout << "sizeof(Deg<int>): " << sizeof(b) << "\n";
+	Deg<long> long_deg;
+	std::cout << "sizeof(Deg<long>): " << sizeof(long_deg) << "\n";
+	Deg<long long> ll_deg;
+	std::cout << "sizeof(Deg<long long>): " << sizeof(ll_deg) << "\n";
+
+	println();
+	Hour<char> char_hour;
+	std::cout << "sizeof(Hour<char>): " << sizeof(char_hour) << "\n";
+	std::cout << "sizeof(Hour<short>): " << sizeof(radian) << "\n";
+	std::cout << "sizeof(Hour<int>): " << sizeof(b) << "\n";
+	Hour<long> long_hour;
+	std::cout << "sizeof(Hour<long>): " << sizeof(long_hour) << "\n";
+	Hour<long long> ll_hour;
+	std::cout << "sizeof(Hour<long long>): " << sizeof(ll_hour) << "\n";
+	println();
+	
+
+	//--Почему беззнаковые типы для параметризации
+	//--угловых мер -- плохо:
+	
+	udegint ud;
+	std::cout << "Unsigned problem:\n";
+	std::cout << "Deg<unsigned int> ud: " << ud << "\n";
+	std::cout << "--ud: " << --ud << "\n";
+	hourshort uhs = ud - 2;
+	std::cout << "Hour<ushort> uhs = ud - 2: " << uhs << "\n";
+	hourint hsov = ud - 2;
+	std::cout << "Hour<short> hsov = ud - 2: " << hsov << "\n";
+	degint fst = -2;
+	std::cout << "Deg<int> fst = -2: " << fst << "\n";
+	fst -= ud;
+	std::cout << "Deg<int> fst -= ud: " << fst << "\n";
+
+
+
 }
