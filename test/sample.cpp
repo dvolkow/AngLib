@@ -5,18 +5,6 @@ using anglib::Const::pi; // Угол в 180 градусов
 using anglib::Deg; // Тип для хранения градусного представления
 using anglib::Hour; // Тип для хранения часового предствления
 
-//-------Для параметризации рекомендуется использовать 
-//---знаковые целые типы, например:
-typedef Deg degshort;
-typedef Hour hourshort;
-
-typedef Deg degint;
-typedef Hour hourint;
-
-//-------Плохой выбор:
-typedef Deg udegint;
-typedef Hour uhourint;
-
 void println()
 {
 	std::cout << "------------------------------\n";
@@ -24,8 +12,8 @@ void println()
 
 int main()
 {
-	degshort zero; // -- по-умолчанию, нулевой угол
-	hourshort hzero;
+	Deg zero; // -- по-умолчанию, нулевой угол
+	Hour hzero;
 
 	std::cout << zero << "\n"; // -- можно выводить так
 	std::cout << hzero << "\n";
@@ -33,43 +21,43 @@ int main()
 	//--Конструктор от арифметического типа, приводящегося
 	//--к double, порождает угол с радианной мерой, равной
 	//--значению в double, к которому привелся тип.
-	degshort radian(1); //  -- угол в один радиан
-	hourshort hradian(1);
+	Deg radian(1); //  -- угол в один радиан
+	Hour hradian(1);
 
 	std::cout << radian << "\n";
 	std::cout << hradian << "\n";
 
 	//--Конструктор от списка: два значения одинаковых целых
 	//--арифметических типов, и double.
-	degint a(0, 1, 2.08); // -- угол 1' 2.08"
-	hourint ha(0, 1, 2.08); // -- угол 1m 2.08s
+	Deg a(0, 1, 2.08); // -- угол 1' 2.08"
+	Hour ha(0, 1, 2.08); // -- угол 1m 2.08s
 
 	std::cout << a << "\n";
 	std::cout << ha << "\n";
 
-	degint b(-15, 300, -61); // -- такой список будет коррект-
+	Deg b(-15, 300, -61); // -- такой список будет коррект-
 							 // -- но обработан согласно ариф-
 							 // -- метике -15g + 300' - 61",
 							 // -- что может быть использовано
 							 // -- в вычислениях с сильно отли-
 							 // -- чающимися по порядку значе-
 							 // -- ниями
-	hourint hb(-15, 300, -61);  // -- аналогично для Hour
+	Hour hb(-15, 300, -61);  // -- аналогично для Hour
 
 	std::cout << b << "\n";
 	std::cout << hb << "\n";
 
 	//--Копирующий конструктор от любой допустимой параметриза-
 	//--ции:
-	degshort c(a); // -- degshort (c) != degint (a) в смысле ти-
+	Deg c(a); // -- Deg (c) != Deg (a) в смысле ти-
 				   // -- пов, но можно приводить один к другому:
-	degint d = c;
+	Deg d = c;
 
 	std::cout << c << "\n";
 	std::cout << d << "\n";
 
-	hourshort hc(ha);
-	hourint hd = hc;
+	Hour hc(ha);
+	Hour hd = hc;
 
 	d = hc, hd = c; // -- допустимы и такие приведения, разве не
 					// -- здорово?!)
@@ -81,8 +69,8 @@ int main()
 	println();
 
 	//--Сравнение углов 
-	degshort da1(180, 1, 0), da2(180, 0, 0.899);
-	hourint ha1(24, 1, 0), ha2(24, 0, 0.899);
+	Deg da1(180, 1, 0), da2(180, 0, 0.899);
+	Hour ha1(24, 1, 0), ha2(24, 0, 0.899);
 
 	std::cout << "da1: " << da1 << "\n" << "da2: " << da2 << "\n"
 			  << "ha1: " << ha1 << "\n" << "ha2: " << ha2 << "\n";   
@@ -133,7 +121,7 @@ int main()
 	//--вого типа в угловой, т.е. подразумевается, что делят угол в
 	//--радианной мере:
 	std::cout << "1 / radian = " << (1 / radian) << "\n"; 
-	std::cout << "PI / 360deg = " << (M_PI / degint(360, 0, 0)) << "\n"; 
+	std::cout << "PI / 360deg = " << (M_PI / Deg(360, 0, 0)) << "\n"; 
 	//--Углы можно делить друг на друга. Результат double:
 	std::cout << "ha1 / ha2 = " << (ha1 / ha2) << "\n"; 
 	std::cout << "da2 / ha1 = " << (da1 / ha1) << "\n"; 
@@ -154,8 +142,8 @@ int main()
 	//--Функция-член mod_2pi приводит значение угла к проме-
 	//--жутку [-360, 360] (или [-24, 24]):
 	//----ВНИМАНИЕ! функция изменяет состояние класса
-	degshort ten_rad(100*radian);
-	hourint hten_rad(100*radian);
+	Deg ten_rad(100*radian);
+	Hour hten_rad(100*radian);
 //	std::cout << "100 rad: " << ten_rad << "\n";
 //	std::cout << "100 rad: " << hten_rad << "\n";
 //	ten_rad.mod_2pi();
@@ -174,8 +162,8 @@ int main()
 
 	//--Нормализация к виду положительного, меньше 2pi ра-
 	//--диан угла:
-	degint denormalize_angle = degint(-275,0,0);
-	hourint hdenormalize_angle = hourint(-15,-25,-34);
+	Deg denormalize_angle = Deg(-275,0,0);
+	Hour hdenormalize_angle = Hour(-15,-25,-34);
 //	std::cout << "Not normalize angle: " << denormalize_angle << "\n";
 //	std::cout << "Not normalize angle(h): " << hdenormalize_angle << "\n";
 //
@@ -188,8 +176,8 @@ int main()
 	//--Операторы ввода
 //	std::cout << "Input your angle (deg min sec): \n";
 	
-//	degint in_d;
-//	hourshort in_h;
+//	Deg in_d;
+//	Hour in_h;
 //	std::cin >> in_d;
 //	std::cout << in_d << "\n";
 
@@ -209,21 +197,24 @@ int main()
 	long c1 = 1;
 	long long d1 = 1;
 	float f1 = 1;
+	double e1 = 1;
 	a1 -= da1;
 	b1 -= da1;
 	c1 -= da1;
 	d1 -= da1;
 	f1 -= da1;
+	e1 -= da1;
 	std::cout << "1 -= da1: " << a1 << "\n";
 	std::cout << "1 -= da1: " << b1 << "\n";
 	std::cout << "1 -= da1: " << c1 << "\n";
 	std::cout << "1 -= da1: " << d1 << "\n";
 	std::cout << "1 -= da1: " << f1 << "\n";
+	std::cout << "1 -= da1: " << e1 << "\n";
 
 	if (f1)
 		std::cout << "lol!\n";
 
-	degint tmp_pi = anglib::Const::pi;
+	Deg tmp_pi = anglib::Const::pi;
 	tmp_pi *= 2;
 	std::cout << "pi *= 2: " << tmp_pi << "\n";
 	tmp_pi /= 4;

@@ -79,14 +79,15 @@ int main()
 
 	std::cout << "Test correct convert & construct: Deg\n";
 	std::cout << "Radian = " << dint(1) << "\n";
-	std::cout << "Radian = " << dint(1).toSec() << " sec\n";
+	std::cout << "Radian = " << dint(1).toArcSec() << " arcsec\n";
+	std::cout << "Radian = " << dint(1).toHSec() << " hsec\n";
 	std::cout << "Radian = " << dint(1).toHour() << " hours\n";
 	std::cout << "Radian = " << dint(1).toRad() << " rad\n";
 	std::cout << "Radian = " << dint(1).toDeg() << " deg\n\n";
 
 	std::cout << "Test correct convert & construct: Hour\n";
 	std::cout << "Radian = " << hint(1) << "\n";
-	std::cout << "Radian = " << hint(1).toSec() << " sec\n";
+	std::cout << "Radian = " << hint(1).toArcSec() << " sec\n";
 	std::cout << "Radian = " << hint(1).toHour() << " hours\n";
 	std::cout << "Radian = " << hint(1).toRad() << " rad\n";
 	std::cout << "Radian = " << hint(1).toDeg() << " deg\n";

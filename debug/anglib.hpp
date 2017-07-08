@@ -60,48 +60,54 @@ namespace anglib
 			return angle_;
 		}
 
-		double toSec() const noexcept
+		double toArcSec() const noexcept
 		{
-			return Const::SEC_IN_RAD / angle_;
+			return Const::SEC_IN_RAD * angle_;
+		}
+
+		double toHSec() const noexcept
+		{
+			return Const::HSEC_IN_RAD * angle_;
 		}
 
 		double toHour() const noexcept
 		{
-			return toSec() / (Const::SEC_IN_DEG * Const::DEG_IN_HOUR);
+			return toArcSec() / (Const::SEC_IN_DEG * Const::DEG_IN_HOUR);
 		}
 
 		double toDeg() const noexcept
 		{
-			return toSec() / Const::SEC_IN_DEG;
+			return toArcSec() / Const::SEC_IN_DEG;
 		}
 
 		~Angle () noexcept {}
 
-		operator short() const
+		// Type conversion operators:
+		operator short() const noexcept
 		{
 			return static_cast<short>(angle_);
 		}
 	
-		operator int() const
+		operator int() const noexcept
 		{
 			return static_cast<int>(angle_);
 		}
 	
-		operator long() const
+		operator long() const noexcept  
 		{
 			return static_cast<long>(angle_);
 		}
 	
-		operator long long() const
+		operator long long() const noexcept
 		{
 			return static_cast<long long>(angle_);
 		}
 	
-		operator float() const
+		operator float() const noexcept
 		{
 			return static_cast<float>(angle_);
 		}
-	
+
 	}; 
 
 	
@@ -211,6 +217,11 @@ namespace anglib
 	namespace Const
 	{
 		const Deg pi = Deg(180, 0, 0);
+
+		const Deg rad = Deg(1);
+		const Deg deg = Deg(1, 0, 0);
+		const Deg hour = Hour(1, 0, 0);
+
 		const Deg rumb(11, 15, 0);
 		const Deg grad(M_PI / 200);
 		const Deg thousandy(M_PI / 3000);
