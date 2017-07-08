@@ -1,19 +1,19 @@
-#include "../debug/anglib.hpp"
+#include "../debug/anglib2.hpp"
 
 using anglib::Deg;
 using anglib::Hour;
 using anglib::Const::pi;
 
-typedef Deg<int> dint;
-typedef Hour<int> hint;
+typedef Deg dint;
+typedef Hour hint;
 
 int main()
 {
 	//Test Deg class
 	dint a; // -- define
 	dint b = dint(pi.toRad()); 
-	dint c = a + b;
-	dint d = a - b;
+	dint c = a + b + 3;
+	dint d = a - b - 1;
 	
 	std::cout << "a = " << a << "\n";
 	std::cout << "b = " << b << "\n";
@@ -30,13 +30,10 @@ int main()
 	std::cout << "f = " << f << "\n";
 	std::cout << "g = " << g << "\n";
 
-	std::cout << "g.mod_2pi = " << g.mod_2pi<int>() << "\n";
-	std::cout << "g.mod_2pi const = " << g << "\n";
-
 	std::cout << "left and right ops test\n";
 	std::cout << ((5 - f) == (f - 5)) << "\n";
-	std::cout << "==: " << (pi == Deg<short>(b.toRad())) << "\n";
-	std::cout << "==: " << (pi == Deg<short>(0)) << "\n";
+	std::cout << "==: " << (pi == Deg(b.toRad())) << "\n";
+	std::cout << "==: " << (pi == Deg(0)) << "\n";
 	std::cout << "==: " << (pi == M_PI) << "\n";
 
 	//Test Hour class
@@ -60,12 +57,9 @@ int main()
 	std::cout << "p = " << p << "\n";
 	std::cout << "r = " << r << "\n";
 
-	std::cout << "r.mod_2pi = " << r.mod_2pi<int>() << "\n";
-	std::cout << "r.mod_2pi const = " << r << "\n";
-
 	std::cout << "left and right ops test\n";
 	std::cout << ((5 - p) == (p - 5)) << "\n";
-	std::cout << "==: " << (pi == Deg<short>(l.toRad())) << "\n";
+	std::cout << "==: " << (pi == Deg(l.toRad())) << "\n";
 
 	std::cout << "\nCompare ops:\n";
 	std::cout << "a > b ? " << (a > b) << "\n";
@@ -101,27 +95,27 @@ int main()
 	std::cout << "\nAnother expressions:\n";
 	std::cout << (a + 2 - 4 * o - (d * 4 - 2 / (o - b * 8)).toRad() + 0.2 * g - f * 0.45 - 1) << "\n";
 
-	std::cout << "\nNormalize:\n";
-	dint tst_normalize(-1005);
-	std::cout << tst_normalize << "\n";
-	tst_normalize.mod_2pi();
-	std::cout << tst_normalize << "\n";
-	tst_normalize.normalize();
-	std::cout << tst_normalize << "\n";
-	hint tst_normalize2(-105, 0, 25);
-	std::cout << tst_normalize2 << "\n";
-	tst_normalize2.mod_2pi();
-	std::cout << tst_normalize2 << "\n";
-	tst_normalize2.normalize();
-	std::cout << tst_normalize2 << "\n";
-
-	std::cout << "\nConstructors:\n";
-	Deg<short> tmp(b);
-	Deg<long long> ltmp(tmp);
-	std::cout << tmp << "\n" << b << "\n" << ltmp << "\n";
-	Deg<long> long_of_hour(o);
-	Hour<short> hour_of_deg(long_of_hour);
-	std::cout << long_of_hour << "\n" << o << "\n" << hour_of_deg << "\n";
+//	std::cout << "\nNormalize:\n";
+//	dint tst_normalize(-1005);
+//	std::cout << tst_normalize << "\n";
+//	tst_normalize.mod_2pi();
+//	std::cout << tst_normalize << "\n";
+//	tst_normalize.normalize();
+//	std::cout << tst_normalize << "\n";
+//	hint tst_normalize2(-105, 0, 25);
+//	std::cout << tst_normalize2 << "\n";
+//	tst_normalize2.mod_2pi();
+//	std::cout << tst_normalize2 << "\n";
+//	tst_normalize2.normalize();
+//	std::cout << tst_normalize2 << "\n";
+//
+//	std::cout << "\nConstructors:\n";
+//	Deg<short> tmp(b);
+//	Deg<long long> ltmp(tmp);
+//	std::cout << tmp << "\n" << b << "\n" << ltmp << "\n";
+//	Deg<long> long_of_hour(o);
+//	Hour<short> hour_of_deg(long_of_hour);
+//	std::cout << long_of_hour << "\n" << o << "\n" << hour_of_deg << "\n";
 	std::cout << "Second test passed.\n\n";
 
 	std::cout << "Rumb = " << anglib::Const::rumb << "\n";
