@@ -76,6 +76,31 @@ namespace anglib
 		}
 
 		~Angle () noexcept {}
+
+		operator short() const
+		{
+			return static_cast<short>(angle_);
+		}
+	
+		operator int() const
+		{
+			return static_cast<int>(angle_);
+		}
+	
+		operator long() const
+		{
+			return static_cast<long>(angle_);
+		}
+	
+		operator long long() const
+		{
+			return static_cast<long long>(angle_);
+		}
+	
+		operator float() const
+		{
+			return static_cast<float>(angle_);
+		}
 	
 	}; 
 

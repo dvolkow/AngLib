@@ -205,8 +205,23 @@ int main()
 	da1 += 1;
 	std::cout << "da1 += ha1: " << da1 << "\n";
 	short a1 = 1;
+	int b1 = 1;
+	long c1 = 1;
+	long long d1 = 1;
+	float f1 = 1;
 	a1 -= da1;
+	b1 -= da1;
+	c1 -= da1;
+	d1 -= da1;
+	f1 -= da1;
 	std::cout << "1 -= da1: " << a1 << "\n";
+	std::cout << "1 -= da1: " << b1 << "\n";
+	std::cout << "1 -= da1: " << c1 << "\n";
+	std::cout << "1 -= da1: " << d1 << "\n";
+	std::cout << "1 -= da1: " << f1 << "\n";
+
+	if (f1)
+		std::cout << "lol!\n";
 
 	degint tmp_pi = anglib::Const::pi;
 	tmp_pi *= 2;
@@ -248,4 +263,6 @@ int main()
 //	Hour<long long> ll_hour;
 //	std::cout << "sizeof(Hour<long long>): " << sizeof(ll_hour) << "\n";
 //	println();
+	Hour hpi = anglib::Const::pi;
+	std::cout << hpi << "\n";
 }
