@@ -1,7 +1,7 @@
 //#include <my_dev/anglib.hpp>
 #include "../debug/anglib.hpp"
 
-using anglib::Const::pi; // Угол в 180 градусов
+using anglib::Const;// Угол в 180 градусов
 using anglib::Deg; // Тип для хранения градусного представления
 using anglib::Hour; // Тип для хранения часового предствления
 
@@ -214,7 +214,7 @@ int main()
 	if (f1)
 		std::cout << "lol!\n";
 
-	Deg tmp_pi = anglib::Const::pi;
+	Deg tmp_pi = Const::PI();
 	tmp_pi *= 2;
 	std::cout << "pi *= 2: " << tmp_pi << "\n";
 	tmp_pi /= 4;
@@ -254,6 +254,6 @@ int main()
 //	Hour<long long> ll_hour;
 //	std::cout << "sizeof(Hour<long long>): " << sizeof(ll_hour) << "\n";
 //	println();
-	Hour hpi = anglib::Const::pi;
+	Hour hpi = Const::PI();
 	std::cout << hpi << "\n";
 }

@@ -6,21 +6,6 @@
 
 namespace anglib
 {
-	namespace Const 
-	{
-		const short SEC_IN_DEG = 3600;
-		const short MIN_IN_DEG = 60;
-		const short DEG_IN_HOUR = 15;
-		const short HOUR_IN_2PI = 24;
-		const short DEG_IN_2PI = 360;
-
-		const double SEC_IN_RAD = DEG_IN_2PI * SEC_IN_DEG / (2 * M_PI);
-		const double HSEC_IN_RAD = HOUR_IN_2PI * SEC_IN_DEG / (2 * M_PI);
-		const double MIN_AT_HOUR = double(1) / MIN_IN_DEG;
-		const double SEC_AT_HOUR = double(1) / SEC_IN_DEG;
-
-		const double PRECISION_COMPARE = 1e-13;
-	}
 
 #ifndef OLD_ANGLIB__
 
@@ -32,6 +17,35 @@ namespace anglib
 		long double sec;
 		long dh;
 		short min;
+	};
+
+	class Const
+	{
+		Const ();
+		virtual ~Const ();
+
+	public:
+		static short SEC_IN_DEG() noexcept { return 3600; }
+		static short MIN_IN_DEG() noexcept { return 60; }
+		static short DEG_IN_HOUR() noexcept { return 15; }
+		static short HOUR_IN_2PI() noexcept { return 24; }
+		static short DEG_IN_2PI() noexcept { return 360; }
+
+		static double SEC_IN_RAD() noexcept { return DEG_IN_2PI() * SEC_IN_DEG() / (2 * M_PI); }
+		static double HSEC_IN_RAD() noexcept { return HOUR_IN_2PI() * SEC_IN_DEG() / (2 * M_PI); }
+
+		static double MIN_AT_HOUR() noexcept { return double(1) / MIN_IN_DEG(); }
+		static double SEC_AT_HOUR() noexcept { return double(1) / SEC_IN_DEG(); }
+
+		static double PRECISION_COMPARE() noexcept { return 1e-13; }
+
+		static Deg PI() noexcept;
+		static Deg RAD() noexcept;
+		static Deg DEG() noexcept;
+		static Hour HOUR() noexcept;
+		static Deg RUMB() noexcept;
+		static Deg GRAD() noexcept;
+		static Deg THOUSANDTH() noexcept;
 	};
 	
 	//Interface, basic class
@@ -62,22 +76,22 @@ namespace anglib
 
 		double toArcSec() const noexcept
 		{
-			return Const::SEC_IN_RAD * angle_;
+			return Const::SEC_IN_RAD() * angle_;
 		}
 
 		double toHSec() const noexcept
 		{
-			return Const::HSEC_IN_RAD * angle_;
+			return Const::HSEC_IN_RAD() * angle_;
 		}
 
 		double toHour() const noexcept
 		{
-			return toArcSec() / (Const::SEC_IN_DEG * Const::DEG_IN_HOUR);
+			return toArcSec() / (Const::SEC_IN_DEG() * Const::DEG_IN_HOUR());
 		}
 
 		double toDeg() const noexcept
 		{
-			return toArcSec() / Const::SEC_IN_DEG;
+			return toArcSec() / Const::SEC_IN_DEG();
 		}
 
 		~Angle () noexcept {}
@@ -129,7 +143,7 @@ namespace anglib
 		Deg(const AriphmeticTypeA deg_, const AriphmeticTypeB min_,
 			  							   const AriphmeticTypeC sec_) noexcept
 		{
-			angle_ = (double(sec_) / Const::SEC_IN_DEG + double(min_) / Const::MIN_IN_DEG + deg_) * M_PI / 180;
+			angle_ = (double(sec_) / Const::SEC_IN_DEG() + double(min_) / Const::MIN_IN_DEG() + deg_) * M_PI / 180;
 		}
 
 		Deg(const Hour & h) noexcept;
@@ -169,7 +183,7 @@ namespace anglib
 		template<typename AriphmeticTypeA, typename AriphmeticTypeB, typename AriphmeticTypeC>
 		Hour(const AriphmeticTypeA hour_, const AriphmeticTypeB min_, const AriphmeticTypeC sec_) noexcept
 		{
-			angle_ = (sec_ + min_ * Const::MIN_IN_DEG + hour_ * Const::SEC_IN_DEG) / Const::HSEC_IN_RAD;
+			angle_ = (sec_ + min_ * Const::MIN_IN_DEG() + hour_ * Const::SEC_IN_DEG()) / Const::HSEC_IN_RAD();
 		}
 
 		Hour(const Deg & d) noexcept;
@@ -198,34 +212,30 @@ namespace anglib
 
 	void Deg::get_imag(proxy_imag & tmp) const noexcept
 	{
-		tmp.sec = Const::SEC_IN_RAD * angle_;
-		tmp.dh = static_cast<long>(tmp.sec / Const::SEC_IN_DEG);
-		tmp.sec -= Const::SEC_IN_DEG * tmp.dh;
-		tmp.min = static_cast<short>(tmp.sec / Const::MIN_IN_DEG);
-		tmp.sec -= Const::MIN_IN_DEG * tmp.min;
+		tmp.sec = Const::SEC_IN_RAD() * angle_;
+		tmp.dh = static_cast<long>(tmp.sec / Const::SEC_IN_DEG());
+		tmp.sec -= Const::SEC_IN_DEG() * tmp.dh;
+		tmp.min = static_cast<short>(tmp.sec / Const::MIN_IN_DEG());
+		tmp.sec -= Const::MIN_IN_DEG() * tmp.min;
 	}
 
 	void Hour::get_imag(proxy_imag & tmp) const noexcept
 	{
-		tmp.sec = Const::SEC_IN_RAD * angle_ / Const::DEG_IN_HOUR;
-		tmp.dh = static_cast<long>(tmp.sec / Const::SEC_IN_DEG);
-		tmp.sec -= Const::SEC_IN_DEG * tmp.dh;
-		tmp.min = static_cast<short>(tmp.sec / Const::MIN_IN_DEG);
-		tmp.sec -= Const::MIN_IN_DEG * tmp.min;
+		tmp.sec = Const::SEC_IN_RAD() * angle_ / Const::DEG_IN_HOUR();
+		tmp.dh = static_cast<long>(tmp.sec / Const::SEC_IN_DEG());
+		tmp.sec -= Const::SEC_IN_DEG() * tmp.dh;
+		tmp.min = static_cast<short>(tmp.sec / Const::MIN_IN_DEG());
+		tmp.sec -= Const::MIN_IN_DEG() * tmp.min;
 	}
 
-	namespace Const
-	{
-		const Deg pi = Deg(180, 0, 0);
+	Deg Const::PI() noexcept { return Deg(180, 0, 0); }
+	Deg Const::RAD() noexcept { return Deg(1); }
+	Deg Const::DEG() noexcept { return Deg(1, 0, 0); }
+	Hour Const::HOUR() noexcept { return Hour(1, 0, 0); }
 
-		const Deg rad = Deg(1);
-		const Deg deg = Deg(1, 0, 0);
-		const Deg hour = Hour(1, 0, 0);
-
-		const Deg rumb(11, 15, 0);
-		const Deg grad(M_PI / 200);
-		const Deg thousandy(M_PI / 3000);
-	}
+	Deg RUMB() noexcept { return Deg(11, 15, 0); }
+	Deg GRAD() noexcept { return Deg(M_PI / 200); }
+	Deg THOUSANDTH() noexcept { return Deg(M_PI / 3000); }
 
 	//--------------implementations another ops-----------------
 	//
@@ -233,46 +243,46 @@ namespace anglib
 	//---------------------        ==          ----------
 	inline bool operator==(const Deg & a, const Deg & b) noexcept
 	{
-		return fabs(a.toRad() - b.toRad()) < Const::PRECISION_COMPARE;
+		return fabs(a.toRad() - b.toRad()) < Const::PRECISION_COMPARE();
 	}
 
 	inline bool operator==(const Deg & a, const Hour & b) noexcept
 	{
-		return fabs(a.toRad() - b.toRad()) < Const::PRECISION_COMPARE;
+		return fabs(a.toRad() - b.toRad()) < Const::PRECISION_COMPARE();
 	}
 
 	inline bool operator==(const Hour & a, const Deg & b) noexcept
 	{
-		return fabs(a.toRad() - b.toRad()) < Const::PRECISION_COMPARE;
+		return fabs(a.toRad() - b.toRad()) < Const::PRECISION_COMPARE();
 	}
 
 	inline bool operator==(const Hour & a, const Hour & b) noexcept
 	{
-		return fabs(a.toRad() - b.toRad()) < Const::PRECISION_COMPARE;
+		return fabs(a.toRad() - b.toRad()) < Const::PRECISION_COMPARE();
 	}
 
 	template <typename AriphmeticType>
 	inline bool operator==(const Deg & a, const AriphmeticType & b) noexcept
 	{
-		return fabs(a.toRad() - double(b)) < Const::PRECISION_COMPARE;
+		return fabs(a.toRad() - double(b)) < Const::PRECISION_COMPARE();
 	}
 
 	template <typename AriphmeticType>
 	inline bool operator==(const AriphmeticType & b, const Deg & a) noexcept
 	{
-		return fabs(a.toRad() - double(b)) < Const::PRECISION_COMPARE;
+		return fabs(a.toRad() - double(b)) < Const::PRECISION_COMPARE();
 	}
 
 	template <typename AriphmeticType>
 	inline bool operator==(const Hour & a, const AriphmeticType & b) noexcept
 	{
-		return fabs(a.toRad() - double(b)) < Const::PRECISION_COMPARE;
+		return fabs(a.toRad() - double(b)) < Const::PRECISION_COMPARE();
 	}
 
 	template <typename AriphmeticType>
 	inline bool operator==(const AriphmeticType & b, const Hour & a) noexcept
 	{
-		return fabs(a.toRad() - double(b)) < Const::PRECISION_COMPARE;
+		return fabs(a.toRad() - double(b)) < Const::PRECISION_COMPARE();
 	}
 
 	//---------------------        !=          ----------
@@ -880,7 +890,24 @@ namespace anglib
 	{
 		return Hour(-a.toRad());
 	}
+
 #else
+
+	namespace Const 
+	{
+		const short SEC_IN_DEG = 3600;
+		const short MIN_IN_DEG = 60;
+		const short DEG_IN_HOUR = 15;
+		const short HOUR_IN_2PI = 24;
+		const short DEG_IN_2PI = 360;
+
+		const double SEC_IN_RAD = DEG_IN_2PI * SEC_IN_DEG / (2 * M_PI);
+		const double HSEC_IN_RAD = HOUR_IN_2PI * SEC_IN_DEG / (2 * M_PI);
+		const double MIN_AT_HOUR = double(1) / MIN_IN_DEG;
+		const double SEC_AT_HOUR = double(1) / SEC_IN_DEG;
+
+		const double PRECISION_COMPARE = 1e-13;
+	}
 
 	template <typename IntType>
 	class Hour;
