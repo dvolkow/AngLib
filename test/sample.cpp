@@ -7,15 +7,15 @@ using anglib::Hour; // Тип для хранения часового пред�
 
 //-------Для параметризации рекомендуется использовать 
 //---знаковые целые типы, например:
-typedef Deg<short> degshort;
-typedef Hour<short> hourshort;
+typedef Deg degshort;
+typedef Hour hourshort;
 
-typedef Deg<int> degint;
-typedef Hour<int> hourint;
+typedef Deg degint;
+typedef Hour hourint;
 
 //-------Плохой выбор:
-typedef Deg<uint> udegint;
-typedef Hour<uint> uhourint;
+typedef Deg udegint;
+typedef Hour uhourint;
 
 void println()
 {
@@ -156,34 +156,34 @@ int main()
 	//----ВНИМАНИЕ! функция изменяет состояние класса
 	degshort ten_rad(100*radian);
 	hourint hten_rad(100*radian);
-	std::cout << "100 rad: " << ten_rad << "\n";
-	std::cout << "100 rad: " << hten_rad << "\n";
-	ten_rad.mod_2pi();
-	hten_rad.mod_2pi();
-	std::cout << "reduce 100 rad: " << ten_rad << "\n";
-	std::cout << "reduce 100 rad: " << hten_rad << "\n";
-	println();
+//	std::cout << "100 rad: " << ten_rad << "\n";
+//	std::cout << "100 rad: " << hten_rad << "\n";
+//	ten_rad.mod_2pi();
+//	hten_rad.mod_2pi();
+//	std::cout << "reduce 100 rad: " << ten_rad << "\n";
+//	std::cout << "reduce 100 rad: " << hten_rad << "\n";
+//	println();
 
 	//--Можно узнать число оборотов с помощью константной 
 	//--параметризованной функцией:
 	ten_rad = 100 * radian;
 	hten_rad = 100 * radian;
-	std::cout << "In 100 rad: " << ten_rad.mod_2pi<int>() << " circles\n";
-	std::cout << "In 100 rad: " << hten_rad.mod_2pi<int>() << " circles\n";
-	println();
+//	std::cout << "In 100 rad: " << ten_rad.mod_2pi<int>() << " circles\n";
+//	std::cout << "In 100 rad: " << hten_rad.mod_2pi<int>() << " circles\n";
+//	println();
 
 	//--Нормализация к виду положительного, меньше 2pi ра-
 	//--диан угла:
 	degint denormalize_angle = degint(-275,0,0);
 	hourint hdenormalize_angle = hourint(-15,-25,-34);
-	std::cout << "Not normalize angle: " << denormalize_angle << "\n";
-	std::cout << "Not normalize angle(h): " << hdenormalize_angle << "\n";
-
-	denormalize_angle.normalize();
-	hdenormalize_angle.normalize();
-	std::cout << "Normalize angle: " << denormalize_angle << "\n";
-	std::cout << "Normalize angle(h): " << hdenormalize_angle << "\n";
-	println();
+//	std::cout << "Not normalize angle: " << denormalize_angle << "\n";
+//	std::cout << "Not normalize angle(h): " << hdenormalize_angle << "\n";
+//
+//	denormalize_angle.normalize();
+//	hdenormalize_angle.normalize();
+//	std::cout << "Normalize angle: " << denormalize_angle << "\n";
+//	std::cout << "Normalize angle(h): " << hdenormalize_angle << "\n";
+//	println();
 
 	//--Операторы ввода
 //	std::cout << "Input your angle (deg min sec): \n";
@@ -229,43 +229,23 @@ int main()
 	ha1 = -da2 + (++ha2);
 
 	//--sizeof структуры:
-	Deg<char> char_deg;
-	std::cout << "sizeof(Deg<char>): " << sizeof(char_deg) << "\n";
-	std::cout << "sizeof(Deg<short>): " << sizeof(radian) << "\n";
-	std::cout << "sizeof(Deg<int>): " << sizeof(b) << "\n";
-	Deg<long> long_deg;
-	std::cout << "sizeof(Deg<long>): " << sizeof(long_deg) << "\n";
-	Deg<long long> ll_deg;
-	std::cout << "sizeof(Deg<long long>): " << sizeof(ll_deg) << "\n";
+//	Deg<char> char_deg;
+//	std::cout << "sizeof(Deg<char>): " << sizeof(char_deg) << "\n";
+//	std::cout << "sizeof(Deg<short>): " << sizeof(radian) << "\n";
+//	std::cout << "sizeof(Deg<int>): " << sizeof(b) << "\n";
+//	Deg<long> long_deg;
+//	std::cout << "sizeof(Deg<long>): " << sizeof(long_deg) << "\n";
+//	Deg<long long> ll_deg;
+//	std::cout << "sizeof(Deg<long long>): " << sizeof(ll_deg) << "\n";
 
-	println();
-	Hour<char> char_hour;
-	std::cout << "sizeof(Hour<char>): " << sizeof(char_hour) << "\n";
-	std::cout << "sizeof(Hour<short>): " << sizeof(radian) << "\n";
-	std::cout << "sizeof(Hour<int>): " << sizeof(b) << "\n";
-	Hour<long> long_hour;
-	std::cout << "sizeof(Hour<long>): " << sizeof(long_hour) << "\n";
-	Hour<long long> ll_hour;
-	std::cout << "sizeof(Hour<long long>): " << sizeof(ll_hour) << "\n";
-	println();
-	
-
-	//--Почему беззнаковые типы для параметризации
-	//--угловых мер -- плохо:
-	
-	udegint ud;
-	std::cout << "Unsigned problem:\n";
-	std::cout << "Deg<unsigned int> ud: " << ud << "\n";
-	std::cout << "--ud: " << --ud << "\n";
-	hourshort uhs = ud - 2;
-	std::cout << "Hour<ushort> uhs = ud - 2: " << uhs << "\n";
-	hourint hsov = ud - 2;
-	std::cout << "Hour<short> hsov = ud - 2: " << hsov << "\n";
-	degint fst = -2;
-	std::cout << "Deg<int> fst = -2: " << fst << "\n";
-	fst -= ud;
-	std::cout << "Deg<int> fst -= ud: " << fst << "\n";
-
-
-
+//	println();
+//	Hour<char> char_hour;
+//	std::cout << "sizeof(Hour<char>): " << sizeof(char_hour) << "\n";
+//	std::cout << "sizeof(Hour<short>): " << sizeof(radian) << "\n";
+//	std::cout << "sizeof(Hour<int>): " << sizeof(b) << "\n";
+//	Hour<long> long_hour;
+//	std::cout << "sizeof(Hour<long>): " << sizeof(long_hour) << "\n";
+//	Hour<long long> ll_hour;
+//	std::cout << "sizeof(Hour<long long>): " << sizeof(ll_hour) << "\n";
+//	println();
 }
