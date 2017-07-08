@@ -13,4 +13,11 @@ int main()
 	std::cout << b << "\n";
 	Deg c(57, 17, 45.5102);
 	std::cout << c << "\n";
+
+//	std::cin >> c;
+//	std::cout << c << "\n";
+
+	Hour h;
+	std::cin >> h;
+	std::cout << h << "\n";
 }

@@ -69,6 +69,8 @@ namespace anglib
 
 		Deg() noexcept : Angle(0) {}
 
+		Deg(Deg & d) noexcept : Angle(d.toRad()) {}
+
 		template<typename AriphmeticType>
 		Deg(const AriphmeticType a) noexcept : Angle(a) {}
 
@@ -92,17 +94,54 @@ namespace anglib
     		s << tmp.dh << " deg " << tmp.min << " min " << tmp.sec << " sec";
 			return s;
 		}
+
+		friend std::istream & operator>>(std::istream &s, Deg &dg) noexcept
+		{
+			double sec, min, deg;
+			s >> deg >> min >> sec; 
+			dg = Deg(deg, min, sec);
+			return s;
+		}
+
 	};
 
 	class Hour : public Angle 
 	{
+		void get_imag(proxy_imag &) const noexcept;
 	public:
-		Hour() : Angle(0) {}
+		Hour() noexcept : Angle(0) {}
+
+		Hour(Hour & h) noexcept : Angle(h.toRad()) {}
 
 		template<typename AriphmeticType>
-		Hour(const AriphmeticType a) : Angle(a) {}
+		Hour(const AriphmeticType a) noexcept : Angle(a) {}
+		
+		//--Constructor: angle(hour, min, sec)
+		template<typename AriphmeticTypeA, typename AriphmeticTypeB, typename AriphmeticTypeC>
+		Hour(const AriphmeticTypeA hour_, const AriphmeticTypeB min_, const AriphmeticTypeC sec_) noexcept
+		{
+			angle_ = (sec_ + min_ * Const::MIN_IN_DEG + hour_ * Const::SEC_IN_DEG) / Const::HSEC_IN_RAD;
+		}
 
 		Hour(Deg & d) noexcept;
+
+		~Hour() noexcept {}
+
+		friend std::ostream & operator<<(std::ostream & s, const Hour & hr) noexcept 
+		{
+			proxy_imag tmp;
+			hr.get_imag(tmp);
+    		s << tmp.dh << " h " << tmp.min << " m " << tmp.sec << " s";
+			return s;
+		}
+
+		friend std::istream & operator>>(std::istream &s, Hour &h) noexcept
+		{
+			double sec, min, hour;
+			s >> hour >> min >> sec; 
+			h = Hour(hour, min, sec);
+			return s;
+		}
 	};
 
 	Hour::Hour(Deg & d) noexcept : Angle(d.toRad()) {}
@@ -111,6 +150,15 @@ namespace anglib
 	void Deg::get_imag(proxy_imag & tmp) const noexcept
 	{
 		tmp.sec = Const::SEC_IN_RAD * angle_;
+		tmp.dh = static_cast<long>(tmp.sec / Const::SEC_IN_DEG);
+		tmp.sec -= Const::SEC_IN_DEG * tmp.dh;
+		tmp.min = static_cast<short>(tmp.sec / Const::MIN_IN_DEG);
+		tmp.sec -= Const::MIN_IN_DEG * tmp.min;
+	}
+
+	void Hour::get_imag(proxy_imag & tmp) const noexcept
+	{
+		tmp.sec = Const::SEC_IN_RAD * angle_ / Const::DEG_IN_HOUR;
 		tmp.dh = static_cast<long>(tmp.sec / Const::SEC_IN_DEG);
 		tmp.sec -= Const::SEC_IN_DEG * tmp.dh;
 		tmp.min = static_cast<short>(tmp.sec / Const::MIN_IN_DEG);
