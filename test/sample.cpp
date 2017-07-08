@@ -1,5 +1,5 @@
 //#include <my_dev/anglib.hpp>
-#include "../debug/anglib2.hpp"
+#include "../debug/anglib.hpp"
 
 using anglib::Const::pi; // Угол в 180 градусов
 using anglib::Deg; // Тип для хранения градусного представления

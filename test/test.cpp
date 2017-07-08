@@ -1,4 +1,4 @@
-#include "../debug/anglib2.hpp"
+#include "../debug/anglib.hpp"
 
 using anglib::Deg;
 using anglib::Hour;
@@ -19,6 +19,9 @@ int main()
 	std::cout << "b = " << b << "\n";
 	std::cout << "c = " << c << "\n";
 	std::cout << "d = " << d << "\n";
+
+	Deg init_test = {5,1,-20};
+	std::cout << "init_test = " << init_test << "\n";
 
 	dint e = b / 3;
 	e = 3 / b;
