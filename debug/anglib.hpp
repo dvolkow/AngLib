@@ -14,7 +14,7 @@ namespace anglib
 
 	struct proxy_imag
 	{
-		long double sec;
+		double sec;
 		long dh;
 		short min;
 	};
