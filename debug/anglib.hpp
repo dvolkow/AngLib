@@ -61,7 +61,7 @@ namespace anglib
 
 		//--Constructor: angle(rad)
 		template<typename AriphmeticType>
-		Angle(const AriphmeticType a) noexcept : angle_(a) {}
+		Angle(const AriphmeticType a) noexcept : angle_(static_cast<double>(a)) {}
 
 		//--Constructor: angle(deg, min, sec)
 		template<typename AriphmeticTypeA, typename AriphmeticTypeB,
@@ -120,6 +120,16 @@ namespace anglib
 		operator float() const noexcept
 		{
 			return static_cast<float>(angle_);
+		}
+	
+		operator double() const noexcept
+		{
+			return static_cast<double>(angle_);
+		}
+	
+		operator long double() const noexcept
+		{
+			return static_cast<long double>(angle_);
 		}
 
 	}; 
@@ -214,18 +224,18 @@ namespace anglib
 	{
 		tmp.sec = Const::SEC_IN_RAD() * angle_;
 		tmp.dh = static_cast<long>(tmp.sec / Const::SEC_IN_DEG());
-		tmp.sec -= Const::SEC_IN_DEG() * tmp.dh;
+		tmp.sec -= Const::SEC_IN_DEG() * static_cast<double>(tmp.dh);
 		tmp.min = static_cast<short>(tmp.sec / Const::MIN_IN_DEG());
-		tmp.sec -= Const::MIN_IN_DEG() * tmp.min;
+		tmp.sec -= Const::MIN_IN_DEG() * static_cast<double>(tmp.min);
 	}
 
 	void Hour::get_imag(proxy_imag & tmp) const noexcept
 	{
 		tmp.sec = Const::SEC_IN_RAD() * angle_ / Const::DEG_IN_HOUR();
 		tmp.dh = static_cast<long>(tmp.sec / Const::SEC_IN_DEG());
-		tmp.sec -= Const::SEC_IN_DEG() * tmp.dh;
+		tmp.sec -= Const::SEC_IN_DEG() * static_cast<double>(tmp.dh);
 		tmp.min = static_cast<short>(tmp.sec / Const::MIN_IN_DEG());
-		tmp.sec -= Const::MIN_IN_DEG() * tmp.min;
+		tmp.sec -= Const::MIN_IN_DEG() * static_cast<double>(tmp.min);
 	}
 
 	Deg Const::PI() noexcept { return Deg(180, 0, 0); }
@@ -470,25 +480,25 @@ namespace anglib
 	template <typename AriphmeticType>
 	inline const Deg operator*(const Deg & dl, const AriphmeticType & dr) noexcept
 	{
-		return Deg(dl.toRad() * dr);
+		return Deg(dl.toRad() * static_cast<double>(dr));
 	}
 
 	template <typename AriphmeticType>
 	inline const Deg operator*(const AriphmeticType & dr, const Deg & dl) noexcept
 	{
-		return Deg(dr * dl.toRad());
+		return Deg(static_cast<double>(dr) * dl.toRad());
 	}
 
 	template <typename AriphmeticType>
 	inline const Hour operator*(const Hour & dl, const AriphmeticType & dr) noexcept
 	{
-		return Hour(dl.toRad() * dr);
+		return Hour(dl.toRad() * static_cast<double>(dr));
 	}
 
 	template <typename AriphmeticType>
 	inline const Hour operator*(const AriphmeticType & dr, const Hour & dl) noexcept
 	{
-		return Hour(dr * dl.toRad());
+		return Hour(static_cast<double>(dr) * dl.toRad());
 	}
 
 	//---------------------GREAT_OF----------
