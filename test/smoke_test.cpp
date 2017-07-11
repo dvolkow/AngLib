@@ -211,8 +211,8 @@ int main()
 	std::cout << "1 -= da1: " << f1 << "\n";
 	std::cout << "1 -= da1: " << e1 << "\n";
 
-	if (f1)
-		std::cout << "lol!\n";
+//	if (f1)
+//		std::cout << "lol!\n";
 
 	Deg tmp_pi = Const::PI();
 	tmp_pi *= 2;
