@@ -18,6 +18,9 @@ int main()
 	std::cout << zero << "\n"; // -- можно выводить так
 	std::cout << hzero << "\n";
 
+	std::cout << "size Deg zero: " << sizeof(zero) << "\n";
+	std::cout << "size Hout hzero: " << sizeof(hzero) << "\n";
+
 	//--Конструктор от арифметического типа, приводящегося
 	//--к double, порождает угол с радианной мерой, равной
 	//--значению в double, к которому привелся тип.

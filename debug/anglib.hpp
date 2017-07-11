@@ -22,7 +22,7 @@ namespace anglib
 	class Const
 	{
 		Const ();
-		virtual ~Const ();
+		virtual ~Const () = 0;
 
 	public:
 		static short SEC_IN_DEG() noexcept { return 3600; }
@@ -47,6 +47,8 @@ namespace anglib
 		static Deg GRAD() noexcept;
 		static Deg THOUSANDTH() noexcept;
 	};
+
+	Const::~Const() {} 
 	
 	//Interface, basic class
 	class Angle
@@ -94,7 +96,7 @@ namespace anglib
 			return toArcSec() / Const::SEC_IN_DEG();
 		}
 
-		virtual ~Angle () = 0;
+		~Angle () {}
 
 		// Type conversion operators:
 		operator short() const noexcept
@@ -133,8 +135,6 @@ namespace anglib
 		}
 
 	}; 
-
-	Angle::~Angle() {}
 	
 	class Deg : public Angle 
 	{
