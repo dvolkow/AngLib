@@ -94,7 +94,7 @@ namespace anglib
 			return toArcSec() / Const::SEC_IN_DEG();
 		}
 
-		~Angle () noexcept {}
+		virtual ~Angle () = 0;
 
 		// Type conversion operators:
 		operator short() const noexcept
@@ -134,6 +134,7 @@ namespace anglib
 
 	}; 
 
+	Angle::~Angle() {}
 	
 	class Deg : public Angle 
 	{
