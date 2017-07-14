@@ -1,14 +1,21 @@
 //#include <my_dev/anglib.hpp>
 #include "../debug/anglib.hpp"
 
+#include <unordered_set>
+#include <unordered_map>
+#include <map>
+#include <set>
+
 using anglib::Const;// Угол в 180 градусов
 using anglib::Deg; // Тип для хранения градусного представления
 using anglib::Hour; // Тип для хранения часового предствления
 
-void println()
-{
-	std::cout << "------------------------------\n";
-}
+using std::unordered_set;
+using std::unordered_map;
+using std::map;
+using std::set;
+
+void println();
 
 int main()
 {
@@ -237,26 +244,45 @@ int main()
 	-a;
 	ha1 = -da2 + (++ha2);
 
-	//--sizeof структуры:
-//	Deg<char> char_deg;
-//	std::cout << "sizeof(Deg<char>): " << sizeof(char_deg) << "\n";
-//	std::cout << "sizeof(Deg<short>): " << sizeof(radian) << "\n";
-//	std::cout << "sizeof(Deg<int>): " << sizeof(b) << "\n";
-//	Deg<long> long_deg;
-//	std::cout << "sizeof(Deg<long>): " << sizeof(long_deg) << "\n";
-//	Deg<long long> ll_deg;
-//	std::cout << "sizeof(Deg<long long>): " << sizeof(ll_deg) << "\n";
-
-//	println();
-//	Hour<char> char_hour;
-//	std::cout << "sizeof(Hour<char>): " << sizeof(char_hour) << "\n";
-//	std::cout << "sizeof(Hour<short>): " << sizeof(radian) << "\n";
-//	std::cout << "sizeof(Hour<int>): " << sizeof(b) << "\n";
-//	Hour<long> long_hour;
-//	std::cout << "sizeof(Hour<long>): " << sizeof(long_hour) << "\n";
-//	Hour<long long> ll_hour;
-//	std::cout << "sizeof(Hour<long long>): " << sizeof(ll_hour) << "\n";
-//	println();
 	Hour hpi = Const::PI();
 	std::cout << hpi << "\n";
+
+	// -- Ordered containers 
+	set<Deg> dset;
+	set<Hour> hrset;
+	dset.insert(da1);
+	dset.insert(da2);
+	dset.insert(da2);
+	std::cout  << dset.count(da1) << " " << dset.count(da2) << "\n";
+	hrset.insert(da1);
+	hrset.insert(da2);
+	hrset.insert(da2);
+	std::cout  << hrset.count(da1) << " " << hrset.count(da2) << "\n";
+	
+	map<Deg, int> degmap;
+	map<Hour, int> hourmap;
+	degmap.insert(std::make_pair(da1, 2));
+	hourmap.insert(std::make_pair(da1, 2));
+	hourmap.insert(std::make_pair(da2, 2));
+
+	// -- Unordered containers
+	unordered_set<Deg> degset;
+	unordered_set<Hour> hourset;
+	degset.insert(da1);
+	degset.insert(da1);
+	degset.insert(ha1);
+	hourset.insert(ha1);
+	hourset.insert(ha1);
+	hourset.insert(da1);
+
+	unordered_map<Deg, int> degumap;
+	unordered_map<Hour, int> hourumap;
+	degumap.insert(std::make_pair(da1, 2));
+	hourumap.insert(std::make_pair(da1, 2));
+	hourumap.insert(std::make_pair(da2, 2));
+}
+
+void println()
+{
+	std::cout << "------------------------------\n";
 }
