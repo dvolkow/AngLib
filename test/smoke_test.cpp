@@ -14,6 +14,10 @@ using std::unordered_set;
 using std::unordered_map;
 using std::map;
 using std::set;
+using std::unordered_multiset;
+using std::unordered_multimap;
+using std::multimap;
+using std::multiset;
 
 void println();
 
@@ -250,24 +254,49 @@ int main()
 	// -- Ordered containers 
 	set<Deg> dset;
 	set<Hour> hrset;
+
 	dset.insert(da1);
 	dset.insert(da2);
 	dset.insert(da2);
 	std::cout  << dset.count(da1) << " " << dset.count(da2) << "\n";
+
 	hrset.insert(da1);
 	hrset.insert(da2);
 	hrset.insert(da2);
 	std::cout  << hrset.count(da1) << " " << hrset.count(da2) << "\n";
 	
+	multiset<Deg> dmset;
+	multiset<Hour> hmrset;
+
+	dmset.insert(da1);
+	dmset.insert(da2);
+	dmset.insert(da2);
+	std::cout  << dmset.count(da1) << " " << dmset.count(da2) << "\n";
+
+	hmrset.insert(da1);
+	hmrset.insert(da2);
+	hmrset.insert(da2);
+	std::cout  << hmrset.count(da1) << " " << hmrset.count(da2) << "\n";
+
 	map<Deg, int> degmap;
 	map<Hour, int> hourmap;
+	
 	degmap.insert(std::make_pair(da1, 2));
 	hourmap.insert(std::make_pair(da1, 2));
 	hourmap.insert(std::make_pair(da2, 2));
 
+	multimap<Deg, int> degmmap;
+	multimap<Hour, int> hourmmap;
+	
+	degmmap.insert(std::make_pair(da1, 2));
+	hourmmap.insert(std::make_pair(da2, 2));
+	hourmmap.insert(std::make_pair(da2, 4));
+	std::cout  << degmmap.count(da1) << " " << hourmmap.count(da2) << "\n";
+
 	// -- Unordered containers
 	unordered_set<Deg> degset;
 	unordered_set<Hour> hourset;
+
 	degset.insert(da1);
 	degset.insert(da1);
 	degset.insert(ha1);
@@ -275,11 +304,29 @@ int main()
 	hourset.insert(ha1);
 	hourset.insert(da1);
 
+	unordered_multiset<Deg> degumset;
+	unordered_multiset<Hour> hourumset;
+
+	degumset.insert(da1);
+	degumset.insert(da1);
+	degumset.insert(ha1);
+	hourumset.insert(ha1);
+	hourumset.insert(ha1);
+	hourumset.insert(da1);
+	
 	unordered_map<Deg, int> degumap;
 	unordered_map<Hour, int> hourumap;
+
 	degumap.insert(std::make_pair(da1, 2));
 	hourumap.insert(std::make_pair(da1, 2));
 	hourumap.insert(std::make_pair(da2, 2));
+
+	unordered_multimap<Deg, int> degummap;
+	unordered_multimap<Hour, int> hourummap;
+
+	degummap.insert(std::make_pair(da1, 2));
+	hourummap.insert(std::make_pair(da1, 2));
+	hourummap.insert(std::make_pair(da2, 2));
 }
 
 void println()
