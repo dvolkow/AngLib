@@ -1,11 +1,11 @@
 //#include <my_dev/anglib.hpp>
-#include "../debug/anglib.hpp"
 
 #include <unordered_set>
 #include <unordered_map>
 #include <queue>
 #include <map>
 #include <set>
+#include "../debug/anglib.hpp"
 
 using anglib::Const;// Угол в 180 градусов
 using anglib::Deg; // Тип для хранения градусного представления
@@ -233,6 +233,8 @@ int main()
 
 //	if (f1)
 //		std::cout << "lol!\n";
+//
+//	da1 = ha1 - 'd'; // --  NOT COMPILE!
 
 	Deg tmp_pi = Const::PI();
 	tmp_pi *= 2;

@@ -4,10 +4,10 @@
 #include <cmath>
 #include <iostream>
 
+#ifndef OLD_ANGLIB__
+
 namespace anglib
 {
-
-#ifndef OLD_ANGLIB__
 
 	class Deg;
 	class Hour; 
@@ -22,7 +22,7 @@ namespace anglib
 	class Const
 	{
 		Const ();
-		virtual ~Const ();
+		virtual ~Const () = 0;
 
 	public:
 		static short SEC_IN_DEG() noexcept { return 3600; }
@@ -47,7 +47,26 @@ namespace anglib
 		static Deg GRAD() noexcept;
 		static Deg THOUSANDTH() noexcept;
 	};
+
+	Const::~Const() {} 
 	
+	using std::is_same;
+
+	template<typename T>
+	constexpr bool is_legal_type = is_same<T, short>::value || 
+   		is_same<T, int>::value || is_same<T, long>::value  ||
+		is_same<T, long long>::value || is_same<T, float>::value ||
+		is_same<T, double>::value || is_same<T, long double>::value;
+
+	template<typename T>
+	constexpr bool is_angle_type = is_same<T, Deg>::value || is_same<T, Hour>::value;
+
+	template<typename T>
+	constexpr bool is_arithmetic_type = is_legal_type<T> || is_same<T, size_t>::value ||
+		is_same<T, unsigned short>::value || is_same<T, unsigned int>::value ||
+		is_same<T, unsigned long>::value || is_same<T, unsigned long long>::value;
+
+
 	//Interface, basic class
 	class Angle
 	{
@@ -61,7 +80,8 @@ namespace anglib
 
 		//--Constructor: angle(rad)
 		template<typename AriphmeticType>
-		Angle(const AriphmeticType a) noexcept : angle_(static_cast<double>(a)) {}
+		Angle(const AriphmeticType a) noexcept : angle_(static_cast<double>(a)) 
+		{ static_assert(is_legal_type<AriphmeticType>, "Type error: use signed integers or float types!");}
 
 		//--Constructor: angle(deg, min, sec)
 		template<typename AriphmeticTypeA, typename AriphmeticTypeB,
@@ -94,7 +114,7 @@ namespace anglib
 			return toArcSec() / Const::SEC_IN_DEG();
 		}
 
-		~Angle () noexcept {}
+		~Angle () {}
 
 		// Type conversion operators:
 		operator short() const noexcept
@@ -133,7 +153,6 @@ namespace anglib
 		}
 
 	}; 
-
 	
 	class Deg : public Angle 
 	{
@@ -153,6 +172,9 @@ namespace anglib
 		Deg(const AriphmeticTypeA deg_, const AriphmeticTypeB min_,
 			  							   const AriphmeticTypeC sec_) noexcept
 		{
+			static_assert(is_legal_type<AriphmeticTypeA>, "Type error: use signed integers or floar types!");
+			static_assert(is_legal_type<AriphmeticTypeB>, "Type error: use signed integers or floar types!");
+			static_assert(is_legal_type<AriphmeticTypeC>, "Type error: use signed integers or floar types!");
 			angle_ = (double(sec_) / Const::SEC_IN_DEG() + double(min_) / Const::MIN_IN_DEG() + deg_) * M_PI / 180;
 		}
 
@@ -193,6 +215,9 @@ namespace anglib
 		template<typename AriphmeticTypeA, typename AriphmeticTypeB, typename AriphmeticTypeC>
 		Hour(const AriphmeticTypeA hour_, const AriphmeticTypeB min_, const AriphmeticTypeC sec_) noexcept
 		{
+			static_assert(is_legal_type<AriphmeticTypeA>, "Type error: use signed integers or floar types!");
+			static_assert(is_legal_type<AriphmeticTypeB>, "Type error: use signed integers or floar types!");
+			static_assert(is_legal_type<AriphmeticTypeC>, "Type error: use signed integers or floar types!");
 			angle_ = (sec_ + min_ * Const::MIN_IN_DEG() + hour_ * Const::SEC_IN_DEG()) / Const::HSEC_IN_RAD();
 		}
 
@@ -271,28 +296,28 @@ namespace anglib
 		return fabs(a.toRad() - b.toRad()) < Const::PRECISION_COMPARE();
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator==(const Deg & a, const AriphmeticType & b) noexcept
 	{
-		return fabs(a.toRad() - double(b)) < Const::PRECISION_COMPARE();
+		return fabs(a.toRad() - static_cast<double>(b)) < Const::PRECISION_COMPARE();
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator==(const AriphmeticType & b, const Deg & a) noexcept
 	{
-		return fabs(a.toRad() - double(b)) < Const::PRECISION_COMPARE();
+		return fabs(a.toRad() - static_cast<double>(b)) < Const::PRECISION_COMPARE();
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator==(const Hour & a, const AriphmeticType & b) noexcept
 	{
-		return fabs(a.toRad() - double(b)) < Const::PRECISION_COMPARE();
+		return fabs(a.toRad() - static_cast<double>(b)) < Const::PRECISION_COMPARE();
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator==(const AriphmeticType & b, const Hour & a) noexcept
 	{
-		return fabs(a.toRad() - double(b)) < Const::PRECISION_COMPARE();
+		return fabs(a.toRad() - static_cast<double>(b)) < Const::PRECISION_COMPARE();
 	}
 
 	//---------------------        !=          ----------
@@ -316,25 +341,25 @@ namespace anglib
 		return !(a == b);
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator!=(const Deg & a, const AriphmeticType & b) noexcept
 	{
 		return !(a == b);
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator!=(const AriphmeticType & b, const Deg & a) noexcept
 	{
 		return !(a == b);
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator!=(const Hour & a, const AriphmeticType & b) noexcept
 	{
 		return !(a == b);
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator!=(const AriphmeticType & b, const Hour & a) noexcept
 	{
 		return !(a == b);
@@ -361,28 +386,28 @@ namespace anglib
 		return Hour(dl.toRad() + dr.toRad());
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline const Deg operator+(const Deg & dl, const AriphmeticType & dr) noexcept
 	{
-		return Deg(dl.toRad() + double(dr));
+		return Deg(dl.toRad() + static_cast<double>(dr));
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline const Deg operator+(const AriphmeticType & dr, const Deg & dl) noexcept
 	{
-		return Deg(dl.toRad() + double(dr));
+		return Deg(dl.toRad() + static_cast<double>(dr));
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline const Hour operator+(const Hour & dl, const AriphmeticType & dr) noexcept
 	{
-		return Hour(dl.toRad() + double(dr));
+		return Hour(dl.toRad() + static_cast<double>(dr));
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline const Hour operator+(const AriphmeticType & dr, const Hour & dl) noexcept
 	{
-		return Hour(dl.toRad() + double(dr));
+		return Hour(dl.toRad() + static_cast<double>(dr));
 	}
 
 	//---------------------SUB----------
@@ -406,28 +431,25 @@ namespace anglib
 		return Hour(dl.toRad() - dr.toRad());
 	}
 
-	template <typename AriphmeticType>
-	inline const Deg operator-(const Deg & dl, const AriphmeticType & dr) noexcept
+	template <
+		typename AngleType, class=std::enable_if_t<is_angle_type<AngleType>>, 
+		typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>
+			>
+	inline const AngleType operator-(const AngleType & dl, const AriphmeticType & dr) noexcept
 	{
-		return Deg(dl.toRad() - double(dr));
+		return AngleType(dl.toRad() - static_cast<double>(dr));
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline const Deg operator-(const AriphmeticType & dr, const Deg & dl) noexcept
 	{
-		return Deg(double(dr) - dl.toRad());
+		return Deg(static_cast<double>(dr) - dl.toRad());
 	}
 
-	template <typename AriphmeticType>
-	inline const Hour operator-(const Hour & dl, const AriphmeticType & dr) noexcept
-	{
-		return Hour(dl.toRad() - double(dr));
-	}
-
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline const Hour operator-(const AriphmeticType & dr, const Hour & dl) noexcept
 	{
-		return Hour(double(dr) - dl.toRad());
+		return Hour(static_cast<double>(dr) - dl.toRad());
 	}
 
 	//---------------------DIV----------
@@ -452,50 +474,50 @@ namespace anglib
 	}
 
 	//---ATTENTION!---specific semantic
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline double operator/(const Deg & dl, const AriphmeticType & dr) noexcept
 	{
-		return (dl.toRad() / double(dr));
+		return (dl.toRad() / static_cast<double>(dr));
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline double operator/(const AriphmeticType & dr, const Deg & dl) noexcept
 	{
-		return (double(dr) / dl.toRad());
+		return (static_cast<double>(dr) / dl.toRad());
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline double operator/(const Hour & dl, const AriphmeticType & dr) noexcept
 	{
-		return (dl.toRad() / double(dr));
+		return (dl.toRad() / static_cast<double>(dr));
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline double operator/(const AriphmeticType & dr, const Hour & dl) noexcept
 	{
-		return (double(dr) / dl.toRad());
+		return (static_cast<double>(dr) / dl.toRad());
 	}
 
 	//---------------------MUL----------
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline const Deg operator*(const Deg & dl, const AriphmeticType & dr) noexcept
 	{
 		return Deg(dl.toRad() * static_cast<double>(dr));
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline const Deg operator*(const AriphmeticType & dr, const Deg & dl) noexcept
 	{
 		return Deg(static_cast<double>(dr) * dl.toRad());
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline const Hour operator*(const Hour & dl, const AriphmeticType & dr) noexcept
 	{
 		return Hour(dl.toRad() * static_cast<double>(dr));
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline const Hour operator*(const AriphmeticType & dr, const Hour & dl) noexcept
 	{
 		return Hour(static_cast<double>(dr) * dl.toRad());
@@ -522,28 +544,28 @@ namespace anglib
 		return (a.toRad() - b.toRad()) > 0;
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator>(const Deg & a, const AriphmeticType & b) noexcept
 	{
-		return (a.toRad() - double(b)) > 0;
+		return (a.toRad() - static_cast<double>(b)) > 0;
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator>(const AriphmeticType & b, const Deg & a) noexcept
 	{
-		return (double(b) - a.toRad()) > 0;
+		return (static_cast<double>(b) - a.toRad()) > 0;
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator>(const Hour & a, const AriphmeticType & b) noexcept
 	{
-		return (a.toRad() - double(b)) > 0;
+		return (a.toRad() - static_cast<double>(b)) > 0;
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator>(const AriphmeticType & b, const Hour & a) noexcept
 	{
-		return (double(b) - a.toRad()) > 0;
+		return (static_cast<double>(b) - a.toRad()) > 0;
 	}
 
 	//---------------------LESS_THAN----------
@@ -567,115 +589,93 @@ namespace anglib
 		return !((a == b) || (a > b));
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator<(const Deg & a, const AriphmeticType & b) noexcept
 	{
 		return !((a == b) || (a > b));
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator<(const AriphmeticType & a, const Deg & b) noexcept
 	{
 		return !((a == b) || (a > b));
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator<(const Hour & a, const AriphmeticType & b) noexcept
 	{
 		return !((a == b) || (a > b));
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator<(const AriphmeticType & a, const Hour & b) noexcept
 	{
 		return !((a == b) || (a > b));
 	}
 
 	//---------------------GREAT_OR_EQUAL----
-	inline bool operator>=(const Deg & a, const Deg & b) noexcept
+	template <
+		typename AngleTypeA, class = std::enable_if_t<is_angle_type<AngleTypeA>>,
+		typename AngleTypeB, class = std::enable_if_t<is_angle_type<AngleTypeB>>
+			>
+	inline bool operator>=(const AngleTypeA & a, const AngleTypeB & b) noexcept
 	{
 		return !(a < b);
 	}
 
-	inline bool operator>=(const Deg & a, const Hour & b) noexcept
-	{
-		return !(a < b);
-	}
-
-	inline bool operator>=(const Hour & a, const Deg & b) noexcept
-	{
-		return !(a < b);
-	}
-
-	inline bool operator>=(const Hour & a, const Hour & b) noexcept
-	{
-		return !(a < b);
-	}
-
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator>=(const Deg & a, const AriphmeticType & b) noexcept
 	{
 		return !(a < b);
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator>=(const AriphmeticType & a, const Deg & b) noexcept
 	{
 		return !(a < b);
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator>=(const Hour & a, const AriphmeticType & b) noexcept
 	{
 		return !(a < b);
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator>=(const AriphmeticType & a, const Hour & b) noexcept
 	{
 		return !(a < b);
 	}
 
 	//---------------------LESS_OR_EQALS------
-	inline bool operator<=(const Deg & a, const Deg & b) noexcept
+	template <
+		typename AngleTypeA, class = std::enable_if_t<is_angle_type<AngleTypeA>>,
+		typename AngleTypeB, class = std::enable_if_t<is_angle_type<AngleTypeB>>
+			>
+	inline bool operator<=(const AngleTypeA & a, const AngleTypeB & b) noexcept
 	{
 		return !(a > b);
 	}
 
-	inline bool operator<=(const Deg & a, const Hour & b) noexcept
-	{
-		return !(a > b);
-	}
-
-	inline bool operator<=(const Hour & a, const Deg & b) noexcept
-	{
-		return !(a > b);
-	}
-
-	inline bool operator<=(const Hour & a, const Hour & b) noexcept
-	{
-		return !(a > b);
-	}
-
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator<=(const Deg & a, const AriphmeticType & b) noexcept
 	{
 		return !(a > b);
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator<=(const AriphmeticType & a, const Deg & b) noexcept
 	{
 		return !(a > b);
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator<=(const Hour & a, const AriphmeticType & b) noexcept
 	{
 		return !(a > b);
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline bool operator<=(const AriphmeticType & a, const Hour & b) noexcept
 	{
 		return !(a > b);
@@ -683,46 +683,32 @@ namespace anglib
 
 	//---------------------Ops += type of----------
 	//---------------------+= ---------------------
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline Deg & operator+=(Deg & d, const AriphmeticType & a) noexcept
 	{
 		d = d + a;
 		return d;
 	}
 
-	inline Deg & operator+=(Deg & d, const Deg & a) noexcept
-	{
-		d = d + a;
-		return d;
-	}
-
-	inline Deg & operator+=(Deg & d, const Hour & a) noexcept
+	template <
+		typename AngleTypeA, class = std::enable_if_t<is_angle_type<AngleTypeA>>,
+		typename AngleTypeB, class = std::enable_if_t<is_angle_type<AngleTypeB>>
+			>
+	inline AngleTypeA & operator+=(AngleTypeA & d, const AngleTypeB & a) noexcept
 	{
 		d = d + a;
 		return d;
 	}
 	
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline Hour & operator+=(Hour & h, const AriphmeticType & a) noexcept
 	{
 		h = h + a;
 		return h;
 	}
-
-	inline Hour & operator+=(Hour & d, const Deg & a) noexcept
-	{
-		d = d + a;
-		return d;
-	}
-
-	inline Hour & operator+=(Hour & d, const Hour & a) noexcept
-	{
-		d = d + a;
-		return d;
-	}
 	
 	//--ATTENTION!--
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline AriphmeticType & operator+=(AriphmeticType & a, const Deg & d) noexcept
 	{
 		a = a + d;
@@ -730,7 +716,7 @@ namespace anglib
 	}
 	
 	//--ATTENTION!--
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline AriphmeticType & operator+=(AriphmeticType & a, const Hour & h) noexcept
 	{
 		a = a + h;
@@ -738,46 +724,32 @@ namespace anglib
 	}
 	
 	//----------------------= ---------------------
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline Deg & operator-=(Deg & d, const AriphmeticType & a) noexcept
 	{
 		d = d - a;
 		return d;
 	}
 
-	inline Deg & operator-=(Deg & d, const Deg & a) noexcept
-	{
-		d = d - a;
-		return d;
-	}
-
-	inline Deg & operator-=(Deg & d, const Hour & a) noexcept
+	template <
+		typename AngleTypeA, class = std::enable_if_t<is_angle_type<AngleTypeA>>,
+		typename AngleTypeB, class = std::enable_if_t<is_angle_type<AngleTypeB>>
+			>
+	inline AngleTypeA & operator-=(AngleTypeA & d, const AngleTypeB & a) noexcept
 	{
 		d = d - a;
 		return d;
 	}
 	
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline Hour & operator-=(Hour & h, const AriphmeticType & a) noexcept
 	{
 		h = h - a;
 		return h;
 	}
-
-	inline Hour & operator-=(Hour & d, const Deg & a) noexcept
-	{
-		d = d - a;
-		return d;
-	}
-
-	inline Hour & operator-=(Hour & d, const Hour & a) noexcept
-	{
-		d = d - a;
-		return d;
-	}
 	
 	//--ATTENTION!--
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline AriphmeticType & operator-=(AriphmeticType & a, const Deg & d) noexcept
 	{
 		a = a - d;
@@ -785,7 +757,7 @@ namespace anglib
 	}
 	
 	//--ATTENTION!--
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline AriphmeticType & operator-=(AriphmeticType & a, const Hour & h) noexcept
 	{
 		a = a - h;
@@ -793,14 +765,14 @@ namespace anglib
 	}
 	
 	//---------------------*= ---------------------
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline Deg & operator*=(Deg & d, const AriphmeticType & a) noexcept
 	{
 		d = d * a;
 		return d;
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline Hour & operator*=(Hour & h, const AriphmeticType & a) noexcept
 	{
 		h = h * a;
@@ -808,7 +780,7 @@ namespace anglib
 	}
 
 	//--ATTENTION!--
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline AriphmeticType & operator*=(AriphmeticType & a, const Deg & d) noexcept
 	{
 		a = a * d;
@@ -816,7 +788,7 @@ namespace anglib
 	}
 	
 	//--ATTENTION!--
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline AriphmeticType & operator*=(AriphmeticType & a, const Hour & h) noexcept
 	{
 		a = a * h;
@@ -824,14 +796,14 @@ namespace anglib
 	}
 
 	//------------------   /= ---------------------
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline Deg & operator/=(Deg & d, const AriphmeticType & a) noexcept
 	{
 		d = d / a;
 		return d;
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline Hour & operator/=(Hour & h, const AriphmeticType & a) noexcept
 	{
 		h = h / a;
@@ -839,7 +811,7 @@ namespace anglib
 	}
 
 	//--ATTENTION!--
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline AriphmeticType & operator/=(AriphmeticType & a, const Deg & d) noexcept
 	{
 		a = a / d;
@@ -847,7 +819,7 @@ namespace anglib
 	}
 	
 	//--ATTENTION!--
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline AriphmeticType & operator/=(AriphmeticType & a, const Hour & h) noexcept
 	{
 		a = a / h;
@@ -855,53 +827,140 @@ namespace anglib
 	}
 	
 	//---------------------Op ++ ------------------
-	inline Deg & operator++(Deg & a) noexcept
+	template <
+		typename AngleTypeA, class = std::enable_if_t<is_angle_type<AngleTypeA>>
+			>
+	inline AngleTypeA & operator++(AngleTypeA & a) noexcept
 	{
-		a += Deg(0, 0, 1);
-		return a;
-	}
-
-	inline Hour & operator++(Hour & a) noexcept
-	{
-		a += Hour(0, 0, 1);
+		a += AngleTypeA(0, 0, 1);
 		return a;
 	}
 
 	//---------------------Op -- ------------------
-	inline Deg & operator--(Deg & a) noexcept
+	template <
+		typename AngleTypeA, class = std::enable_if_t<is_angle_type<AngleTypeA>>
+			>
+	inline AngleTypeA & operator--(AngleTypeA & a) noexcept
 	{
-		a -= Deg(0, 0, 1);
-		return a;
-	}
-
-	inline Hour & operator--(Hour & a) noexcept
-	{
-		a -= Hour(0, 0, 1);
+		a -= AngleTypeA(0, 0, 1);
 		return a;
 	}
 
 	//---------------------UNARY + and - ----------
-	inline const Deg & operator+(const Deg & a) noexcept
-	{
-		return a;
-	}
-
-	inline const Hour & operator+(const Hour & a) noexcept
+	template <
+		typename AngleTypeA, class = std::enable_if_t<is_angle_type<AngleTypeA>>
+			>
+	inline const AngleTypeA & operator+(const AngleTypeA & a) noexcept
 	{
 		return a;
 	}
 	
-	inline const Deg operator-(const Deg & a) noexcept
+	template <
+		typename AngleTypeA, class = std::enable_if_t<is_angle_type<AngleTypeA>>
+			>
+	inline const AngleTypeA operator-(const AngleTypeA & a) noexcept
 	{
-		return Deg(-a.toRad());
+		return AngleTypeA(-a.toRad());
 	}
 
-	inline const Hour operator-(const Hour & a) noexcept
-	{
-		return Hour(-a.toRad());
-	}
+}
+
+namespace std
+{
+	template <> 
+		struct hash<anglib::Deg> : public unary_function<anglib::Deg, size_t>
+		{
+			inline size_t operator()(const anglib::Deg & a) const 
+			{
+				return hash<double>()(a.toRad());
+			}
+		};
+
+	template <> 
+		struct hash<anglib::Hour> : public unary_function<anglib::Deg, size_t>
+		{
+			inline size_t operator()(const anglib::Hour & a) const 
+			{
+				return hash<double>()(a.toRad());
+			}
+		};
+
+	template <>
+		struct equal_to<anglib::Deg> : public binary_function<anglib::Deg, anglib::Deg, bool>
+		{
+			bool operator()(const anglib::Deg & a, const anglib::Deg & b) const 
+			{
+				return a == b;
+			}
+		};
+
+	template <>
+		struct equal_to<anglib::Hour> : public binary_function<anglib::Hour, anglib::Hour, bool>
+		{
+			bool operator()(const anglib::Hour & a, const anglib::Hour & b) const 
+			{
+				return a == b;
+			}
+		};
+
+	template <>
+		struct less<anglib::Deg> : public binary_function<anglib::Deg, anglib::Deg, bool>
+		{
+			bool operator()(const anglib::Deg & a, const anglib::Deg & b) const 
+			{
+				return a < b;
+			}
+		};
+
+	template <>
+		struct less<anglib::Hour> : public binary_function<anglib::Hour, anglib::Hour, bool>
+		{
+			bool operator()(const anglib::Hour & a, const anglib::Hour & b) const 
+			{
+				return a < b;
+			}
+		};
+
+	template <>
+		struct less_equal<anglib::Deg> : public binary_function<anglib::Deg, anglib::Deg, bool>
+		{
+			bool operator()(const anglib::Deg & a, const anglib::Deg & b) const 
+			{
+				return a <= b;
+			}
+		};
+
+	template <>
+		struct less_equal<anglib::Hour> : public binary_function<anglib::Hour, anglib::Hour, bool>
+		{
+			bool operator()(const anglib::Hour & a, const anglib::Hour & b) const 
+			{
+				return a <= b;
+			}
+		};
+
+	template <>
+		struct greater<anglib::Deg> : public binary_function<anglib::Deg, anglib::Deg, bool>
+		{
+			bool operator()(const anglib::Deg & a, const anglib::Deg & b) const 
+			{
+				return a > b;
+			}
+		};
+
+	template <>
+		struct greater<anglib::Hour> : public binary_function<anglib::Hour, anglib::Hour, bool>
+		{
+			bool operator()(const anglib::Hour & a, const anglib::Hour & b) const 
+			{
+				return a > b;
+			}
+		};
+}
 
 #else
+namespace anglib 
+{
 
 	namespace Const 
 	{
@@ -1922,9 +1981,7 @@ namespace anglib
 	{
 		return Hour<IntType>(-a.toRad());
 	}
-
-
-#endif // -- end OLD_ANGLIB__
 }
+#endif // -- end OLD_ANGLIB__
 
 #endif // -- end ANGLIB_HPP
