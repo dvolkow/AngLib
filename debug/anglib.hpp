@@ -608,22 +608,11 @@ namespace anglib
 	}
 
 	//---------------------GREAT_OR_EQUAL----
-	inline bool operator>=(const Deg & a, const Deg & b) noexcept
-	{
-		return !(a < b);
-	}
-
-	inline bool operator>=(const Deg & a, const Hour & b) noexcept
-	{
-		return !(a < b);
-	}
-
-	inline bool operator>=(const Hour & a, const Deg & b) noexcept
-	{
-		return !(a < b);
-	}
-
-	inline bool operator>=(const Hour & a, const Hour & b) noexcept
+	template <
+		typename AngleTypeA, class = std::enable_if_t<is_angle_type<AngleTypeA>>,
+		typename AngleTypeB, class = std::enable_if_t<is_angle_type<AngleTypeB>>
+			>
+	inline bool operator>=(const AngleTypeA & a, const AngleTypeB & b) noexcept
 	{
 		return !(a < b);
 	}
@@ -653,22 +642,11 @@ namespace anglib
 	}
 
 	//---------------------LESS_OR_EQALS------
-	inline bool operator<=(const Deg & a, const Deg & b) noexcept
-	{
-		return !(a > b);
-	}
-
-	inline bool operator<=(const Deg & a, const Hour & b) noexcept
-	{
-		return !(a > b);
-	}
-
-	inline bool operator<=(const Hour & a, const Deg & b) noexcept
-	{
-		return !(a > b);
-	}
-
-	inline bool operator<=(const Hour & a, const Hour & b) noexcept
+	template <
+		typename AngleTypeA, class = std::enable_if_t<is_angle_type<AngleTypeA>>,
+		typename AngleTypeB, class = std::enable_if_t<is_angle_type<AngleTypeB>>
+			>
+	inline bool operator<=(const AngleTypeA & a, const AngleTypeB & b) noexcept
 	{
 		return !(a > b);
 	}
@@ -706,13 +684,11 @@ namespace anglib
 		return d;
 	}
 
-	inline Deg & operator+=(Deg & d, const Deg & a) noexcept
-	{
-		d = d + a;
-		return d;
-	}
-
-	inline Deg & operator+=(Deg & d, const Hour & a) noexcept
+	template <
+		typename AngleTypeA, class = std::enable_if_t<is_angle_type<AngleTypeA>>,
+		typename AngleTypeB, class = std::enable_if_t<is_angle_type<AngleTypeB>>
+			>
+	inline AngleTypeA & operator+=(AngleTypeA & d, const AngleTypeB & a) noexcept
 	{
 		d = d + a;
 		return d;
@@ -723,18 +699,6 @@ namespace anglib
 	{
 		h = h + a;
 		return h;
-	}
-
-	inline Hour & operator+=(Hour & d, const Deg & a) noexcept
-	{
-		d = d + a;
-		return d;
-	}
-
-	inline Hour & operator+=(Hour & d, const Hour & a) noexcept
-	{
-		d = d + a;
-		return d;
 	}
 	
 	//--ATTENTION!--
@@ -761,13 +725,11 @@ namespace anglib
 		return d;
 	}
 
-	inline Deg & operator-=(Deg & d, const Deg & a) noexcept
-	{
-		d = d - a;
-		return d;
-	}
-
-	inline Deg & operator-=(Deg & d, const Hour & a) noexcept
+	template <
+		typename AngleTypeA, class = std::enable_if_t<is_angle_type<AngleTypeA>>,
+		typename AngleTypeB, class = std::enable_if_t<is_angle_type<AngleTypeB>>
+			>
+	inline AngleTypeA & operator-=(AngleTypeA & d, const AngleTypeB & a) noexcept
 	{
 		d = d - a;
 		return d;
@@ -778,18 +740,6 @@ namespace anglib
 	{
 		h = h - a;
 		return h;
-	}
-
-	inline Hour & operator-=(Hour & d, const Deg & a) noexcept
-	{
-		d = d - a;
-		return d;
-	}
-
-	inline Hour & operator-=(Hour & d, const Hour & a) noexcept
-	{
-		d = d - a;
-		return d;
 	}
 	
 	//--ATTENTION!--
@@ -871,50 +821,40 @@ namespace anglib
 	}
 	
 	//---------------------Op ++ ------------------
-	inline Deg & operator++(Deg & a) noexcept
+	template <
+		typename AngleTypeA, class = std::enable_if_t<is_angle_type<AngleTypeA>>
+			>
+	inline AngleTypeA & operator++(AngleTypeA & a) noexcept
 	{
-		a += Deg(0, 0, 1);
-		return a;
-	}
-
-	inline Hour & operator++(Hour & a) noexcept
-	{
-		a += Hour(0, 0, 1);
+		a += AngleTypeA(0, 0, 1);
 		return a;
 	}
 
 	//---------------------Op -- ------------------
-	inline Deg & operator--(Deg & a) noexcept
+	template <
+		typename AngleTypeA, class = std::enable_if_t<is_angle_type<AngleTypeA>>
+			>
+	inline AngleTypeA & operator--(AngleTypeA & a) noexcept
 	{
-		a -= Deg(0, 0, 1);
-		return a;
-	}
-
-	inline Hour & operator--(Hour & a) noexcept
-	{
-		a -= Hour(0, 0, 1);
+		a -= AngleTypeA(0, 0, 1);
 		return a;
 	}
 
 	//---------------------UNARY + and - ----------
-	inline const Deg & operator+(const Deg & a) noexcept
-	{
-		return a;
-	}
-
-	inline const Hour & operator+(const Hour & a) noexcept
+	template <
+		typename AngleTypeA, class = std::enable_if_t<is_angle_type<AngleTypeA>>
+			>
+	inline const AngleTypeA & operator+(const AngleTypeA & a) noexcept
 	{
 		return a;
 	}
 	
-	inline const Deg operator-(const Deg & a) noexcept
+	template <
+		typename AngleTypeA, class = std::enable_if_t<is_angle_type<AngleTypeA>>
+			>
+	inline const AngleTypeA operator-(const AngleTypeA & a) noexcept
 	{
-		return Deg(-a.toRad());
-	}
-
-	inline const Hour operator-(const Hour & a) noexcept
-	{
-		return Hour(-a.toRad());
+		return AngleTypeA(-a.toRad());
 	}
 
 }
