@@ -4,10 +4,10 @@
 #include <cmath>
 #include <iostream>
 
+#ifndef OLD_ANGLIB__
+
 namespace anglib
 {
-
-#ifndef OLD_ANGLIB__
 
 	class Deg;
 	class Hour; 
@@ -902,7 +902,50 @@ namespace anglib
 		return Hour(-a.toRad());
 	}
 
+}
+
+namespace std
+{
+	template <> 
+		struct hash<anglib::Deg> : public unary_function<anglib::Deg, size_t>
+		{
+			inline size_t operator()(const anglib::Deg & a) const 
+			{
+				return hash<double>()(a.toRad());
+			}
+		};
+
+	template <> 
+		struct hash<anglib::Hour> : public unary_function<anglib::Deg, size_t>
+		{
+			inline size_t operator()(const anglib::Hour & a) const 
+			{
+				return hash<double>()(a.toRad());
+			}
+		};
+
+	template <>
+		struct equal_to<anglib::Deg> : public unary_function<anglib::Deg, bool>
+		{
+			bool operator()(const anglib::Deg & a, const anglib::Deg & b) const 
+			{
+				return a == b;
+			}
+		};
+
+	template <>
+		struct equal_to<anglib::Hour> : public unary_function<anglib::Hour, bool>
+		{
+			bool operator()(const anglib::Hour & a, const anglib::Hour & b) const 
+			{
+				return a == b;
+			}
+		};
+}
+
 #else
+namespace anglib 
+{
 
 	namespace Const 
 	{
@@ -1923,9 +1966,7 @@ namespace anglib
 	{
 		return Hour<IntType>(-a.toRad());
 	}
-
-
-#endif // -- end OLD_ANGLIB__
 }
+#endif // -- end OLD_ANGLIB__
 
 #endif // -- end ANGLIB_HPP
