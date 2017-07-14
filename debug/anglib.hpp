@@ -275,25 +275,25 @@ namespace anglib
 	template <typename AriphmeticType>
 	inline bool operator==(const Deg & a, const AriphmeticType & b) noexcept
 	{
-		return fabs(a.toRad() - double(b)) < Const::PRECISION_COMPARE();
+		return fabs(a.toRad() - static_cast<double>(b)) < Const::PRECISION_COMPARE();
 	}
 
 	template <typename AriphmeticType>
 	inline bool operator==(const AriphmeticType & b, const Deg & a) noexcept
 	{
-		return fabs(a.toRad() - double(b)) < Const::PRECISION_COMPARE();
+		return fabs(a.toRad() - static_cast<double>(b)) < Const::PRECISION_COMPARE();
 	}
 
 	template <typename AriphmeticType>
 	inline bool operator==(const Hour & a, const AriphmeticType & b) noexcept
 	{
-		return fabs(a.toRad() - double(b)) < Const::PRECISION_COMPARE();
+		return fabs(a.toRad() - static_cast<double>(b)) < Const::PRECISION_COMPARE();
 	}
 
 	template <typename AriphmeticType>
 	inline bool operator==(const AriphmeticType & b, const Hour & a) noexcept
 	{
-		return fabs(a.toRad() - double(b)) < Const::PRECISION_COMPARE();
+		return fabs(a.toRad() - static_cast<double>(b)) < Const::PRECISION_COMPARE();
 	}
 
 	//---------------------        !=          ----------
@@ -365,25 +365,25 @@ namespace anglib
 	template <typename AriphmeticType>
 	inline const Deg operator+(const Deg & dl, const AriphmeticType & dr) noexcept
 	{
-		return Deg(dl.toRad() + double(dr));
+		return Deg(dl.toRad() + static_cast<double>(dr));
 	}
 
 	template <typename AriphmeticType>
 	inline const Deg operator+(const AriphmeticType & dr, const Deg & dl) noexcept
 	{
-		return Deg(dl.toRad() + double(dr));
+		return Deg(dl.toRad() + static_cast<double>(dr));
 	}
 
 	template <typename AriphmeticType>
 	inline const Hour operator+(const Hour & dl, const AriphmeticType & dr) noexcept
 	{
-		return Hour(dl.toRad() + double(dr));
+		return Hour(dl.toRad() + static_cast<double>(dr));
 	}
 
 	template <typename AriphmeticType>
 	inline const Hour operator+(const AriphmeticType & dr, const Hour & dl) noexcept
 	{
-		return Hour(dl.toRad() + double(dr));
+		return Hour(dl.toRad() + static_cast<double>(dr));
 	}
 
 	//---------------------SUB----------
@@ -410,25 +410,25 @@ namespace anglib
 	template <typename AriphmeticType>
 	inline const Deg operator-(const Deg & dl, const AriphmeticType & dr) noexcept
 	{
-		return Deg(dl.toRad() - double(dr));
+		return Deg(dl.toRad() - static_cast<double>(dr));
 	}
 
 	template <typename AriphmeticType>
 	inline const Deg operator-(const AriphmeticType & dr, const Deg & dl) noexcept
 	{
-		return Deg(double(dr) - dl.toRad());
+		return Deg(static_cast<double>(dr) - dl.toRad());
 	}
 
 	template <typename AriphmeticType>
 	inline const Hour operator-(const Hour & dl, const AriphmeticType & dr) noexcept
 	{
-		return Hour(dl.toRad() - double(dr));
+		return Hour(dl.toRad() - static_cast<double>(dr));
 	}
 
 	template <typename AriphmeticType>
 	inline const Hour operator-(const AriphmeticType & dr, const Hour & dl) noexcept
 	{
-		return Hour(double(dr) - dl.toRad());
+		return Hour(static_cast<double>(dr) - dl.toRad());
 	}
 
 	//---------------------DIV----------
@@ -456,25 +456,25 @@ namespace anglib
 	template <typename AriphmeticType>
 	inline double operator/(const Deg & dl, const AriphmeticType & dr) noexcept
 	{
-		return (dl.toRad() / double(dr));
+		return (dl.toRad() / static_cast<double>(dr));
 	}
 
 	template <typename AriphmeticType>
 	inline double operator/(const AriphmeticType & dr, const Deg & dl) noexcept
 	{
-		return (double(dr) / dl.toRad());
+		return (static_cast<double>(dr) / dl.toRad());
 	}
 
 	template <typename AriphmeticType>
 	inline double operator/(const Hour & dl, const AriphmeticType & dr) noexcept
 	{
-		return (dl.toRad() / double(dr));
+		return (dl.toRad() / static_cast<double>(dr));
 	}
 
 	template <typename AriphmeticType>
 	inline double operator/(const AriphmeticType & dr, const Hour & dl) noexcept
 	{
-		return (double(dr) / dl.toRad());
+		return (static_cast<double>(dr) / dl.toRad());
 	}
 
 	//---------------------MUL----------
@@ -526,25 +526,25 @@ namespace anglib
 	template <typename AriphmeticType>
 	inline bool operator>(const Deg & a, const AriphmeticType & b) noexcept
 	{
-		return (a.toRad() - double(b)) > 0;
+		return (a.toRad() - static_cast<double>(b)) > 0;
 	}
 
 	template <typename AriphmeticType>
 	inline bool operator>(const AriphmeticType & b, const Deg & a) noexcept
 	{
-		return (double(b) - a.toRad()) > 0;
+		return (static_cast<double>(b) - a.toRad()) > 0;
 	}
 
 	template <typename AriphmeticType>
 	inline bool operator>(const Hour & a, const AriphmeticType & b) noexcept
 	{
-		return (a.toRad() - double(b)) > 0;
+		return (a.toRad() - static_cast<double>(b)) > 0;
 	}
 
 	template <typename AriphmeticType>
 	inline bool operator>(const AriphmeticType & b, const Hour & a) noexcept
 	{
-		return (double(b) - a.toRad()) > 0;
+		return (static_cast<double>(b) - a.toRad()) > 0;
 	}
 
 	//---------------------LESS_THAN----------
@@ -925,7 +925,7 @@ namespace std
 		};
 
 	template <>
-		struct equal_to<anglib::Deg> : public unary_function<anglib::Deg, bool>
+		struct equal_to<anglib::Deg> : public binary_function<anglib::Deg, anglib::Deg, bool>
 		{
 			bool operator()(const anglib::Deg & a, const anglib::Deg & b) const 
 			{
@@ -934,11 +934,65 @@ namespace std
 		};
 
 	template <>
-		struct equal_to<anglib::Hour> : public unary_function<anglib::Hour, bool>
+		struct equal_to<anglib::Hour> : public binary_function<anglib::Hour, anglib::Hour, bool>
 		{
 			bool operator()(const anglib::Hour & a, const anglib::Hour & b) const 
 			{
 				return a == b;
+			}
+		};
+
+	template <>
+		struct less<anglib::Deg> : public binary_function<anglib::Deg, anglib::Deg, bool>
+		{
+			bool operator()(const anglib::Deg & a, const anglib::Deg & b) const 
+			{
+				return a < b;
+			}
+		};
+
+	template <>
+		struct less<anglib::Hour> : public binary_function<anglib::Hour, anglib::Hour, bool>
+		{
+			bool operator()(const anglib::Hour & a, const anglib::Hour & b) const 
+			{
+				return a < b;
+			}
+		};
+
+	template <>
+		struct less_equal<anglib::Deg> : public binary_function<anglib::Deg, anglib::Deg, bool>
+		{
+			bool operator()(const anglib::Deg & a, const anglib::Deg & b) const 
+			{
+				return a <= b;
+			}
+		};
+
+	template <>
+		struct less_equal<anglib::Hour> : public binary_function<anglib::Hour, anglib::Hour, bool>
+		{
+			bool operator()(const anglib::Hour & a, const anglib::Hour & b) const 
+			{
+				return a <= b;
+			}
+		};
+
+	template <>
+		struct greater<anglib::Deg> : public binary_function<anglib::Deg, anglib::Deg, bool>
+		{
+			bool operator()(const anglib::Deg & a, const anglib::Deg & b) const 
+			{
+				return a > b;
+			}
+		};
+
+	template <>
+		struct greater<anglib::Hour> : public binary_function<anglib::Hour, anglib::Hour, bool>
+		{
+			bool operator()(const anglib::Hour & a, const anglib::Hour & b) const 
+			{
+				return a > b;
 			}
 		};
 }
