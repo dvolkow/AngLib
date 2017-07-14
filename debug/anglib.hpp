@@ -50,6 +50,21 @@ namespace anglib
 
 	Const::~Const() {} 
 	
+	using std::is_same;
+
+	template<typename T>
+	constexpr bool is_legal_type = 
+   		is_same<T, int>::value || is_same<T, long>::value  ||
+		is_same<T, long long>::value || is_same<T, float>::value ||
+		is_same<T, double>::value || is_same<T, long double>::value;
+
+	template<typename T>
+	constexpr bool is_legal_type_not_int = 
+   		is_same<T, long double>::value || is_same<T, long>::value  ||
+		is_same<T, long long>::value || is_same<T, float>::value ||
+		is_same<T, double>::value;
+
+
 	//Interface, basic class
 	class Angle
 	{
@@ -63,7 +78,8 @@ namespace anglib
 
 		//--Constructor: angle(rad)
 		template<typename AriphmeticType>
-		Angle(const AriphmeticType a) noexcept : angle_(static_cast<double>(a)) {}
+		Angle(const AriphmeticType a) noexcept : angle_(static_cast<double>(a)) 
+		{ static_assert(is_legal_type<AriphmeticType>, "Type error: use signed integers or floar types!");}
 
 		//--Constructor: angle(deg, min, sec)
 		template<typename AriphmeticTypeA, typename AriphmeticTypeB,
@@ -154,6 +170,9 @@ namespace anglib
 		Deg(const AriphmeticTypeA deg_, const AriphmeticTypeB min_,
 			  							   const AriphmeticTypeC sec_) noexcept
 		{
+			static_assert(is_legal_type<AriphmeticTypeA>, "Type error: use signed integers or floar types!");
+			static_assert(is_legal_type<AriphmeticTypeB>, "Type error: use signed integers or floar types!");
+			static_assert(is_legal_type<AriphmeticTypeC>, "Type error: use signed integers or floar types!");
 			angle_ = (double(sec_) / Const::SEC_IN_DEG() + double(min_) / Const::MIN_IN_DEG() + deg_) * M_PI / 180;
 		}
 
@@ -194,6 +213,9 @@ namespace anglib
 		template<typename AriphmeticTypeA, typename AriphmeticTypeB, typename AriphmeticTypeC>
 		Hour(const AriphmeticTypeA hour_, const AriphmeticTypeB min_, const AriphmeticTypeC sec_) noexcept
 		{
+			static_assert(is_legal_type<AriphmeticTypeA>, "Type error: use signed integers or floar types!");
+			static_assert(is_legal_type<AriphmeticTypeB>, "Type error: use signed integers or floar types!");
+			static_assert(is_legal_type<AriphmeticTypeC>, "Type error: use signed integers or floar types!");
 			angle_ = (sec_ + min_ * Const::MIN_IN_DEG() + hour_ * Const::SEC_IN_DEG()) / Const::HSEC_IN_RAD();
 		}
 
@@ -407,7 +429,7 @@ namespace anglib
 		return Hour(dl.toRad() - dr.toRad());
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_legal_type_not_int<AriphmeticType>>>
 	inline const Deg operator-(const Deg & dl, const AriphmeticType & dr) noexcept
 	{
 		return Deg(dl.toRad() - static_cast<double>(dr));
@@ -419,7 +441,7 @@ namespace anglib
 		return Deg(static_cast<double>(dr) - dl.toRad());
 	}
 
-	template <typename AriphmeticType>
+	template <typename AriphmeticType, class=std::enable_if_t<is_legal_type_not_int<AriphmeticType>>>
 	inline const Hour operator-(const Hour & dl, const AriphmeticType & dr) noexcept
 	{
 		return Hour(dl.toRad() - static_cast<double>(dr));

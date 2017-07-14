@@ -40,6 +40,10 @@ int main()
 	Deg radian(1); //  -- угол в один радиан
 	Hour hradian(1);
 
+//	Deg test('a'); //--THIS IS NOT COMPILE!
+//	Hour test('a', 0, 'd'); //--THIS IS NOT COMPILE!
+//	std::cout << test << "\n";
+
 	std::cout << radian << "\n";
 	std::cout << hradian << "\n";
 
@@ -299,13 +303,13 @@ int main()
 	priority_queue<Hour> hourqu;
 
 	degqu.push(da1);
-//	degqu.push(da2);
-//	degqu.push(ha2);
-//	degqu.push(ha1);
-//	hourqu.push(ha1);
-//	hourqu.push(ha2);
-//	hourqu.push(da2);
-//	hourqu.push(da1);
+	degqu.push(da2);
+	degqu.push(ha2);
+	degqu.push(ha1);
+	hourqu.push(ha1);
+	hourqu.push(ha2);
+	hourqu.push(da2);
+	hourqu.push(da1);
 
 	std::cout << std::less_equal<Deg>()(ha1, ha2) << "\n";
 	// -- Unordered containers
