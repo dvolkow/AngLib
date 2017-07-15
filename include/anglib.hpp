@@ -475,23 +475,26 @@ namespace anglib
 
 	//---ATTENTION!---specific semantic
 	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
-	inline double operator/(const Deg & dl, const AriphmeticType & dr) noexcept
+	inline Deg operator/(const Deg & dl, const AriphmeticType & dr) noexcept
 	{
-		return (dl.toRad() / static_cast<double>(dr));
+		return Deg(dl.toRad() / static_cast<double>(dr));
 	}
 
+	//---ATTENTION!---specific semantic
 	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline double operator/(const AriphmeticType & dr, const Deg & dl) noexcept
 	{
 		return (static_cast<double>(dr) / dl.toRad());
 	}
 
+	//---ATTENTION!---specific semantic
 	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
-	inline double operator/(const Hour & dl, const AriphmeticType & dr) noexcept
+	inline Hour operator/(const Hour & dl, const AriphmeticType & dr) noexcept
 	{
-		return (dl.toRad() / static_cast<double>(dr));
+		return Hour(dl.toRad() / static_cast<double>(dr));
 	}
 
+	//---ATTENTION!---specific semantic
 	template <typename AriphmeticType, class=std::enable_if_t<is_arithmetic_type<AriphmeticType>>>
 	inline double operator/(const AriphmeticType & dr, const Hour & dl) noexcept
 	{
