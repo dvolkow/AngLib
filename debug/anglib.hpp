@@ -19,6 +19,7 @@ namespace anglib
 		short min;
 	};
 
+    // 000
 	class Const
 	{
 		Const ();
