@@ -3,21 +3,21 @@ dist: trusty
 language: cpp
 compiler: g++
 install: export CXX="g++-5"
-matrix:
-    # works on Precise and Trusty
-    - os: linux
-      addons:
-        apt:
-          sources:
+os: linux
+addons:
+    apt:
+        sources:
             - ubuntu-toolchain-r-test
-          packages:
+        packages:
             - g++-5
-      env:
-         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
-
+            - g++-5-multilib
+            - libc6-dev
+env:
+    global:
+        - COMPILER=g++-5
 
 before_install:
-- sudo apt-get update -qq
-- eval "${MATRIX_EVAL}"
-- cd ./test/
+    - sudo apt-get update -qq
+    - sudo apt-get install libc6-dev
+    - cd ./test/
 script: make
