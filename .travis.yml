@@ -5,7 +5,7 @@ compiler:
 g++:
     - 4.9
     - 5.0
-    - 6.0
+    - 5.4.0
     - trunk
 stdlib:
   - libc++
@@ -31,6 +31,8 @@ before_install:
     - sudo apt-get update -qq
     - sudo apt-get install libc6-dev
     - sudo apt-get install gcc-5-multilib
+    - sudo apt-get install gcc-6-base
     - sudo apt-get install g++-5-multilib
+    - sudo apt-get install g++-5
     - cd ./test/
 script: make
