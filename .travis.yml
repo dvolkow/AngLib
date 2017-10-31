@@ -1,20 +1,35 @@
 sudo: required
 dist: trusty
 language: cpp
-compiler: g++
+compiler: 
+gcc:
+    - 4.9
+    - 5.0
+    - 6.0
+    - trunk
+stdlib:
+  - libc++
+  - stdlibc++
+std:
+  - c++03
+  - c++11
+  - c++14
 install: export CXX="g++-5"
 os: linux
 addons:
     apt:
         sources:
+            - llvm-toolchain-precise-3.8
             - ubuntu-toolchain-r-test
         packages:
             - g++-5
             - g++-5-multilib
             - libc6-dev
+            - libx11-dev
 env:
     global:
         - COMPILER=g++-5
+        - ACTION=gmake
 
 before_install:
     - sudo apt-get update -qq
