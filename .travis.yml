@@ -4,8 +4,8 @@ compiler: gcc
 addons:
   apt:
     packages:
-    - gcc-5.4
-    - g++-5.4
+    - gcc-5
+    - g++-5
 os:
 - linux
 before_install:
